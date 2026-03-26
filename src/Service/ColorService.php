@@ -80,9 +80,9 @@ class ColorService
 	public const LMS_TO_OKLAB_BM = 0.7827717662;
 	public const LMS_TO_OKLAB_BS = -0.8086757660;
 
-	public static function convertHexadecimalToRgb(string $hex): string
+	public static function hex2rgb(string $hex): string
 	{
-		self::validateHexadecimal($hex);
+		self::validateHex($hex);
 
 		$hex = ltrim($hex, self::HEX_PREFIX);
 		$r = hexdec(substr($hex, self::HEX_RED_OFFSET, self::HEX_COMPONENT_LENGTH));
@@ -92,7 +92,7 @@ class ColorService
 		return "rgb({$r}, {$g}, {$b})";
 	}
 
-	public static function convertRgbToRgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
+	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
 	{
 		$rgb = self::parseRgb($rgb);
 
@@ -101,7 +101,7 @@ class ColorService
 		return "rgba({$r}, {$g}, {$b}, {$alpha})";
 	}
 
-	public static function convertRgbToHsl(string $rgb): string
+	public static function rgb2hsl(string $rgb): string
 	{
 		$rgb = self::parseRgb($rgb);
 
@@ -140,7 +140,7 @@ class ColorService
 		return "hsl({$h}, {$s}%, {$l}%)";
 	}
 
-	public static function convertRgbToOklch(string $rgb): string
+	public static function rgb2oklch(string $rgb): string
 	{
 		$rgb = self::parseRgb($rgb);
 
@@ -192,7 +192,7 @@ class ColorService
 		return "oklch({$L} {$C} {$h})";
 	}
 
-	public static function validateHexadecimal(string $hex): void
+	public static function validateHex(string $hex): void
 	{
 		if (!preg_match('/^#?[0-9a-fA-F]{6}$/', $hex)) {
 			throw new \InvalidArgumentException('La couleur hexadécimale doit être au format #RRGGBB ou RRGGBB.');

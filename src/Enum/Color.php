@@ -907,7 +907,7 @@ enum Color: int
 	 * 
 	 * @return string Le code hexadécimal de la couleur
 	 */
-	public function getHexadecimal(): string
+	public function getHex(): string
 	{
 		return match($this) {
 			self::Black => '#000000',
@@ -1297,7 +1297,7 @@ enum Color: int
 			self::Lagoon900 => '#003d3a',
 			self::Lagoon950 => '#001f1d',
 
-			default => self::Black->getHexadecimal(),
+			default => self::Black->getHex(),
 		};
 	}
 
@@ -1308,7 +1308,7 @@ enum Color: int
 	 */
 	public function getRgb(): ?string
 	{
-		return ColorService::convertHexadecimalToRgb($this->getHexadecimal());
+		return ColorService::hex2rgb($this->getHex());
 	}
 
 	/**
@@ -1320,7 +1320,7 @@ enum Color: int
 	 */
 	public function getRgba(float $alpha = ColorService::DEFAULT_ALPHA): ?string
 	{
-		return ColorService::convertRgbToRgba($this->getRgb(), $alpha);
+		return ColorService::rgb2rgba($this->getRgb(), $alpha);
 	}
 
 	/**
@@ -1330,7 +1330,7 @@ enum Color: int
 	 */
 	public function getHsl(): ?string
 	{
-		return ColorService::convertRgbToHsl($this->getRgb());
+		return ColorService::rgb2hsl($this->getRgb());
 	}
 
 	/**
@@ -1340,7 +1340,7 @@ enum Color: int
 	 */
 	public function getOklch(): ?string
 	{
-		return ColorService::convertRgbToOklch($this->getRgb());
+		return ColorService::rgb2oklch($this->getRgb());
 	}
 
 	/**
@@ -1357,7 +1357,7 @@ enum Color: int
 			'name' => $this->getName(),
 			'code' => $this->getCode(),
 			'title' => $this->getTitle(),
-			'hexadecimal' => $this->getHexadecimal(),
+			'hex' => $this->getHex(),
 			'rgb' => $this->getRgb(),
 			'rgba' => $this->getRgba($alpha),
 			'hsl' => $this->getHsl(),

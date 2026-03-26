@@ -46,21 +46,21 @@ class ColorTest extends TestCase
 		$this->assertSame('Rouge passion', Color::Red500->getTitle());
 	}
 
-	public function testGetHexadecimalReturnsValidFormat(): void
+	public function testGetHexReturnsValidFormat(): void
 	{
 		foreach (Color::cases() as $color) {
 			$this->assertMatchesRegularExpression(
 				'/^#[0-9a-fA-F]{6}$/',
-				$color->getHexadecimal(),
+				$color->getHex(),
 				"La couleur {$color->name} n'a pas un format hexadécimal valide."
 			);
 		}
 	}
 
-	public function testGetHexadecimalReturnsExpectedValue(): void
+	public function testGetHexReturnsExpectedValue(): void
 	{
-		$this->assertSame('#000000', Color::Black->getHexadecimal());
-		$this->assertSame('#ef4444', Color::Red500->getHexadecimal());
+		$this->assertSame('#000000', Color::Black->getHex());
+		$this->assertSame('#ef4444', Color::Red500->getHex());
 	}
 
 	public function testGetRgbReturnsValidFormat(): void
@@ -141,7 +141,7 @@ class ColorTest extends TestCase
 		$this->assertArrayHasKey('name', $array);
 		$this->assertArrayHasKey('code', $array);
 		$this->assertArrayHasKey('title', $array);
-		$this->assertArrayHasKey('hexadecimal', $array);
+		$this->assertArrayHasKey('hex', $array);
 		$this->assertArrayHasKey('rgb', $array);
 		$this->assertArrayHasKey('rgba', $array);
 		$this->assertArrayHasKey('hsl', $array);
@@ -155,7 +155,7 @@ class ColorTest extends TestCase
 
 		$this->assertSame($color->getId(), $array['id']);
 		$this->assertSame($color->getName(), $array['name']);
-		$this->assertSame($color->getHexadecimal(), $array['hexadecimal']);
+		$this->assertSame($color->getHex(), $array['hex']);
 		$this->assertSame($color->getRgb(), $array['rgb']);
 		$this->assertSame($color->getHsl(), $array['hsl']);
 		$this->assertSame($color->getOklch(), $array['oklch']);
@@ -179,7 +179,7 @@ class ColorTest extends TestCase
 		}
 	}
 
-	public function testAllCasesHaveDefinedHexadecimal(): void
+	public function testAllCasesHaveDefinedHex(): void
 	{
 		$excluded = [Color::Black];
 
@@ -190,7 +190,7 @@ class ColorTest extends TestCase
 
 			$this->assertNotSame(
 				'#000000',
-				$color->getHexadecimal(),
+				$color->getHex(),
 				"La couleur {$color->name} utilise le fallback hexadécimal (#000000)."
 			);
 		}

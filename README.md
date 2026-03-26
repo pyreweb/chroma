@@ -21,17 +21,17 @@ use Pyreweb\Chroma\Enum\Color;
 
 $color = Color::Red500;
 
-$color->getId();          // 105
-$color->getName();        // "Red500"
-$color->getCode();        // 500
-$color->getTitle();       // "Rouge passion"
-$color->getHexadecimal(); // "#ef4444"
-$color->getRgb();         // "rgb(239, 68, 68)"
-$color->getRgba();        // "rgba(239, 68, 68, 1)"
-$color->getRgba(0.5);     // "rgba(239, 68, 68, 0.5)"
-$color->getHsl();         // "hsl(0, 91%, 60%)"
-$color->getOklch();       // "oklch(0.6274 0.2007 22.15)"
-$color->toArray();        // [...tous les formats]
+$color->getId();      // 105
+$color->getName();    // "Red500"
+$color->getCode();    // 500
+$color->getTitle();   // "Rouge passion"
+$color->getHex();     // "#ef4444"
+$color->getRgb();     // "rgb(239, 68, 68)"
+$color->getRgba();    // "rgba(239, 68, 68, 1)"
+$color->getRgba(0.5); // "rgba(239, 68, 68, 0.5)"
+$color->getHsl();     // "hsl(0, 91%, 60%)"
+$color->getOklch();   // "oklch(0.6274 0.2007 22.15)"
+$color->toArray();    // [...tous les formats]
 ```
 
 ### Convertir une couleur manuellement
@@ -39,11 +39,11 @@ $color->toArray();        // [...tous les formats]
 ```php
 use Pyreweb\Chroma\Service\ColorService;
 
-ColorService::convertHexadecimalToRgb('#ef4444');        // "rgb(239, 68, 68)"
-ColorService::convertRgbToRgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
-ColorService::convertRgbToRgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
-ColorService::convertRgbToHsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
-ColorService::convertRgbToOklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
+ColorService::hex2rgb('#ef4444');                // "rgb(239, 68, 68)"
+ColorService::rgb2rgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
+ColorService::rgb2rgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
+ColorService::rgb2hsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
+ColorService::rgb2oklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
 
 // Ou aussi...
 
@@ -52,11 +52,11 @@ use Pyreweb\Chroma\Service\ColorService;
 
 $color = Color::Red500;
 
-ColorService::convertHexadecimalToRgb($color->getHexadecimal()); // "rgb(239, 68, 68)"
-ColorService::convertRgbToRgba($color->getRgb());                // "rgba(239, 68, 68, 1)"
-ColorService::convertRgbToRgba($color->getRgb(), 0.5);           // "rgba(239, 68, 68, 0.5)"
-ColorService::convertRgbToHsl($color->getRgb());                 // "hsl(0, 91%, 60%)"
-ColorService::convertRgbToOklch($color->getRgb());               // "oklch(0.6274 0.2007 22.15)"
+ColorService::hex2rgb($color->getHex());       // "rgb(239, 68, 68)"
+ColorService::rgb2rgba($color->getRgb());      // "rgba(239, 68, 68, 1)"
+ColorService::rgb2rgba($color->getRgb(), 0.5); // "rgba(239, 68, 68, 0.5)"
+ColorService::rgb2hsl($color->getRgb());       // "hsl(0, 91%, 60%)"
+ColorService::rgb2oklch($color->getRgb());     // "oklch(0.6274 0.2007 22.15)"
 ```
 
 ### Itérer sur toutes les couleurs
@@ -65,7 +65,7 @@ ColorService::convertRgbToOklch($color->getRgb());               // "oklch(0.627
 use Pyreweb\Chroma\Enum\Color;
 
 foreach (Color::cases() as $color) {
-    echo $color->getTitle() . ' : ' . $color->getHexadecimal() . PHP_EOL;
+    echo $color->getTitle() . ' : ' . $color->getHex() . PHP_EOL;
 }
 ```
 
