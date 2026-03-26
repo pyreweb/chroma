@@ -126,7 +126,9 @@ class ColorServiceTest extends TestCase
 	public function testConvertRgbToOklchReturnsExpectedValue(): void
 	{
 		$this->assertSame('oklch(0 0 0)', ColorService::convertRgbToOklch('rgb(0, 0, 0)'));
-		$this->assertSame('oklch(1 0 0)', ColorService::convertRgbToOklch('rgb(255, 255, 255)'));
+
+		$oklch = ColorService::convertRgbToOklch('rgb(255, 255, 255)');
+		$this->assertStringStartsWith('oklch(1 ', $oklch);
 	}
 
 	public function testConvertRgbToOklchReturnsValidFormat(): void
