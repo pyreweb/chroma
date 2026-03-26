@@ -39,11 +39,22 @@ $color->toArray();        // [...tous les formats]
 ```php
 use Pyreweb\Chroma\Service\ColorService;
 
-ColorService::convertHexadecimalToRgb('#ef4444');         // "rgb(239, 68, 68)"
-ColorService::convertRgbToRgba('rgb(239, 68, 68)');       // "rgba(239, 68, 68, 1)"
-ColorService::convertRgbToRgba('rgb(239, 68, 68)', 0.5);  // "rgba(239, 68, 68, 0.5)"
-ColorService::convertRgbToHsl('rgb(239, 68, 68)');        // "hsl(0, 91%, 60%)"
-ColorService::convertRgbToOklch('rgb(239, 68, 68)');      // "oklch(0.6274 0.2007 22.15)"
+ColorService::convertHexadecimalToRgb('#ef4444');        // "rgb(239, 68, 68)"
+ColorService::convertRgbToRgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
+ColorService::convertRgbToRgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
+ColorService::convertRgbToHsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
+ColorService::convertRgbToOklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
+
+// Ou aussi...
+
+use Pyreweb\Chroma\Enum\Color;
+use Pyreweb\Chroma\Service\ColorService;
+
+ColorService::convertHexadecimalToRgb(Color::Red500->getHexadecimal()); // "rgb(239, 68, 68)"
+ColorService::convertRgbToRgba(Color::Red500->getRgb());                // "rgba(239, 68, 68, 1)"
+ColorService::convertRgbToRgba(Color::Red500->getRgb(), 0.5);           // "rgba(239, 68, 68, 0.5)"
+ColorService::convertRgbToHsl(Color::Red500->getRgb());                 // "hsl(0, 91%, 60%)"
+ColorService::convertRgbToOklch(Color::Red500->getRgb());               // "oklch(0.6274 0.2007 22.15)"
 ```
 
 ### Itérer sur toutes les couleurs
