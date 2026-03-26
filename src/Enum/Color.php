@@ -9,8 +9,8 @@ use App\Service\ColorService;
 /**
  * Énumération des couleurs
  * 
- * @author Pyréweb <contact@pyreweb.com>
  * @author Hugo Doueil <hugo@pyreweb.com>
+ * @author Pyréweb <contact@pyreweb.com>
  */
 enum Color: int
 {
