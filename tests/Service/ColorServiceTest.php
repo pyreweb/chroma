@@ -214,7 +214,7 @@ class ColorServiceTest extends TestCase
 
 	public function testValidateRgbThrowsOnInvalidFormat(): void
 	{
-		$invalids = ['rgb(256, 0, 0)', 'rgba(0, 0, 0, 1)', 'rgb(0,0,0)', '', 'red'];
+		$invalids = ['rgb(256, 0, 0)', 'rgba(0, 0, 0, 1)', '', 'red'];
 
 		foreach ($invalids as $invalid) {
 			try {

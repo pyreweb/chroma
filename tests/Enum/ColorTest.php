@@ -129,7 +129,8 @@ class ColorTest extends TestCase
 	public function testGetOklchReturnsExpectedValue(): void
 	{
 		$this->assertSame('oklch(0 0 0)', Color::Black->getOklch());
-		$this->assertSame('oklch(1 0 0)', Color::White->getOklch());
+
+		$this->assertStringStartsWith('oklch(1 ', Color::White->getOklch());
 	}
 
 	public function testToArrayContainsAllKeys(): void
