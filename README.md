@@ -31,7 +31,7 @@ $color->getRgba();    // "rgba(239, 68, 68, 1)"
 $color->getRgba(0.5); // "rgba(239, 68, 68, 0.5)"
 $color->getHsl();     // "hsl(0, 91%, 60%)"
 $color->getOklch();   // "oklch(0.6274 0.2007 22.15)"
-$color->toArray();    // [...tous les formats]
+$color->toArray();    // Tableau associatif contenant toutes les méthodes précèdentes
 ```
 
 ### Convertir une couleur manuellement
