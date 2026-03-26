@@ -8,6 +8,7 @@ use InvalidArgumentException;
 
 use PHPUnit\Framework\TestCase;
 
+use Pyreweb\Chroma\Enum\Color;
 use Pyreweb\Chroma\Service\ColorService;
 
 class ColorServiceTest extends TestCase
@@ -49,6 +50,51 @@ class ColorServiceTest extends TestCase
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::hex2rgb('');
+	}
+
+	public function testHex2RgbaUsesDefaultAlpha(): void
+	{
+		$this->assertSame('rgba(0, 0, 0, 1)', ColorService::hex2rgba(Color::Black->getHex()));
+	}
+
+	public function testHex2RgbaUsesCustomAlpha(): void
+	{
+		$this->assertSame('rgba(0, 0, 0, 0.5)', ColorService::hex2rgba(Color::Black->getHex(), 0.5));
+		$this->assertSame('rgba(0, 0, 0, 0)', ColorService::hex2rgba(Color::Black->getHex(), 0.0));
+		$this->assertSame('rgba(0, 0, 0, 1)', ColorService::hex2rgba(Color::Black->getHex(), 1.0));
+	}
+
+	public function testHex2RgbaReturnsExpectedValue(): void
+	{
+		$this->assertSame('rgba(239, 68, 68, 1)', ColorService::hex2rgba(Color::Red500->getHex()));
+	}
+
+	public function testHex2RgbaThrowsOnAlphaOutOfRange(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		ColorService::hex2rgba(Color::Black->getHex(), -0.5);
+	}
+
+	public function testHex2RgbaThrowsOnAlphaAboveOne(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		
+		ColorService::hex2rgba(Color::Black->getHex(), 1.5);
+	}
+
+	public function testHex2RgbaThrowsOnInvalidHex(): void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		ColorService::rgb2rgba('#GKMVNB');
+	}
+
+	public function testHex2RgbaThrowsOnMalformedString(): void
+	{
+		$this->expectException(InvalidArgumentException::class);
+
+		ColorService::hex2rgba('not-a-color');
 	}
 
 	public function testRgb2RgbaUsesDefaultAlpha(): void

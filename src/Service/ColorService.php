@@ -93,6 +93,21 @@ class ColorService
 		return "rgb({$r}, {$g}, {$b})";
 	}
 
+	public static function hex2rgba(string $hex, float $alpha = self::DEFAULT_ALPHA): string
+	{
+		return self::rgb2rgba(self::hex2rgb($hex), $alpha);
+	}
+
+	public static function hex2hsl(string $hex): string
+	{
+		return self::rgb2hsl(self::hex2rgb($hex));
+	}
+
+	public static function hex2oklch(string $hex): string
+	{
+		return self::rgb2oklch(self::hex2rgb($hex));
+	}
+
 	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
 	{
 		if ($alpha < 0.0 || $alpha > 1.0) {
