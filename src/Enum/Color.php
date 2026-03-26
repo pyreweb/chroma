@@ -500,7 +500,7 @@ enum Color: int
 			return (int) $matches[0];
 		}
 
-		return self::Red500->getCode();
+		return 0;
 	}
 
 	/**

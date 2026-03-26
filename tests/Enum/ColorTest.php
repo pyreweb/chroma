@@ -30,8 +30,8 @@ class ColorTest extends TestCase
 
 	public function testGetCodeForColorsWithoutNumericSuffix(): void
 	{
-		$this->assertSame(500, Color::Black->getCode());
-		$this->assertSame(500, Color::White->getCode());
+		$this->assertSame(0, Color::Black->getCode());
+		$this->assertSame(0, Color::White->getCode());
 	}
 
 	public function testGetTitleReturnsNonEmptyString(): void
