@@ -30,8 +30,6 @@ class ColorTest extends TestCase
 
     public function testGetCodeForColorsWithoutNumericSuffix(): void
     {
-        // Black et White n'ont pas de suffixe numérique,
-        // getCode() doit retourner le code par défaut (500)
         $this->assertSame(500, Color::Black->getCode());
         $this->assertSame(500, Color::White->getCode());
     }
