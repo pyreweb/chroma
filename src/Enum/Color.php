@@ -662,6 +662,56 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son code HSL
+	 *
+	 * La valeur fournie doit correspondre au format produit par
+	 * {@see ColorService::rgb2hsl()} (ex. 'hsl(0, 91%, 60%)') : les composantes
+	 * H (0–360), S (0–100) et L (0–100) sont des entiers sans décimales.
+	 * La chaîne est normalisée avant comparaison, ce qui tolère des espaces
+	 * différents autour des virgules.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
+	 * @throws \ValueError Si aucune couleur ne correspond au code HSL donné
+	 */
+	public static function fromHsl(string $hsl): self
+	{
+		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
+			throw new \InvalidArgumentException("Format HSL invalide : '{$hsl}'.");
+		}
+
+		$h = (int) $matches[1];
+		$s = (int) $matches[2];
+		$l = (int) $matches[3];
+
+		if ($h > 360) {
+			throw new \InvalidArgumentException("La teinte (H) doit être comprise entre 0 et 360 dans '{$hsl}'.");
+		}
+
+		if ($s > 100) {
+			throw new \InvalidArgumentException("La saturation (S) doit être comprise entre 0 et 100 dans '{$hsl}'.");
+		}
+
+		if ($l > 100) {
+			throw new \InvalidArgumentException("La luminosité (L) doit être comprise entre 0 et 100 dans '{$hsl}'.");
+		}
+
+		$normalized = "hsl({$h}, {$s}%, {$l}%)";
+
+		foreach (self::cases() as $case) {
+			if ($case->getHsl() === $normalized) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code HSL '{$hsl}'.");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
