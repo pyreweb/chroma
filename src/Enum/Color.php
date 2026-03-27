@@ -468,6 +468,95 @@ enum Color: int
 	case Lagoon950 = 3210;
 
 	/**
+	 * Trouver une couleur par son identifiant
+	 *
+	 * Équivalent à Color::from($id). Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param int $id L'identifiant de la couleur
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond à l'identifiant donné
+	 */
+	public static function fromId(int $id): self
+	{
+		return self::from($id);
+	}
+
+	/**
+	 * Trouver une couleur par son nom de case
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond au nom donné
+	 */
+	public static function fromName(string $name): self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->getName() === $name) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code numérique
+	 *
+	 * Retourne la première couleur correspondante, car plusieurs palettes peuvent
+	 * partager le même code numérique (ex. 500 pour Red500, Orange500, etc.).
+	 * Lance une ValueError si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond.
+	 *
+	 * @param int $code Le code numérique de la couleur (ex. 500), doit être un entier positif
+	 *
+	 * @return self La première couleur correspondante
+	 *
+	 * @throws \ValueError Si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond au code donné
+	 */
+	public static function fromCode(int $code): self
+	{
+		if ($code <= 0) {
+			throw new \ValueError("Le code de couleur doit être un entier positif. Valeur fournie : '{$code}'.");
+		}
+
+		foreach (self::cases() as $case) {
+			$caseCode = $case->getCode();
+			if ($caseCode > 0 && $caseCode === $code) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son titre
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond au titre donné
+	 */
+	public static function fromTitle(string $title): self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->getTitle() === $title) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le titre '{$title}'.");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
