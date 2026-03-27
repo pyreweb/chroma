@@ -576,7 +576,7 @@ enum Color: int
 		$hex = '#' . strtolower(ltrim($hex, '#'));
 
 		foreach (self::cases() as $case) {
-			if (strtolower($case->getHex()) === $hex) {
+			if ($case->getHex() === $hex) {
 				return $case;
 			}
 		}

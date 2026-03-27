@@ -195,4 +195,35 @@ class ColorTest extends TestCase
 			);
 		}
 	}
+
+	public function testFromHexReturnsMatchingColor(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromHex('#ef4444'));
+		$this->assertSame(Color::Black, Color::fromHex('#000000'));
+	}
+
+	public function testFromHexIsCaseInsensitive(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromHex('#EF4444'));
+		$this->assertSame(Color::Red500, Color::fromHex('#Ef4444'));
+	}
+
+	public function testFromHexAcceptsHexWithoutHashPrefix(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromHex('ef4444'));
+	}
+
+	public function testFromHexThrowsValueErrorForUnknownHex(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromHex('#000001');
+	}
+
+	public function testFromHexThrowsInvalidArgumentExceptionForInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromHex('notacolor');
+	}
 }
