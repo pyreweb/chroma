@@ -662,6 +662,31 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son code HSL
+	 *
+	 * La valeur fournie doit correspondre exactement au format produit par
+	 * {@see ColorService::rgb2hsl()} (ex. 'hsl(0, 91%, 60%)'), car la comparaison
+	 * est effectuée contre la sortie normalisée de {@see self::getHsl()}.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond au code HSL donné
+	 */
+	public static function fromHsl(string $hsl): self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->getHsl() === $hsl) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code HSL '{$hsl}'.");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
