@@ -195,4 +195,51 @@ class ColorTest extends TestCase
 			);
 		}
 	}
+
+	public function testFromHslReturnsMatchingColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromHsl('hsl(0, 0%, 0%)'));
+		$this->assertSame(Color::White, Color::fromHsl('hsl(0, 0%, 100%)'));
+	}
+
+	public function testFromHslNormalizesWhitespace(): void
+	{
+		$this->assertSame(Color::Black, Color::fromHsl('hsl(0,0%,0%)'));
+		$this->assertSame(Color::Black, Color::fromHsl('hsl( 0 , 0% , 0% )'));
+	}
+
+	public function testFromHslThrowsValueErrorForUnknownHsl(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromHsl('hsl(1, 2%, 3%)');
+	}
+
+	public function testFromHslThrowsInvalidArgumentExceptionForInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromHsl('invalid');
+	}
+
+	public function testFromHslThrowsInvalidArgumentExceptionForHueOutOfRange(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromHsl('hsl(400, 0%, 0%)');
+	}
+
+	public function testFromHslThrowsInvalidArgumentExceptionForSaturationOutOfRange(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromHsl('hsl(0, 101%, 0%)');
+	}
+
+	public function testFromHslThrowsInvalidArgumentExceptionForLightnessOutOfRange(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromHsl('hsl(0, 0%, 101%)');
+	}
 }
