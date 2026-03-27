@@ -300,7 +300,7 @@ class ColorService
 		}
 	}
 
-	private static function parseRgb(string $rgb): array
+	public static function parseRgb(string $rgb): array
 	{
 		$matches = self::validateRgb($rgb);
 
