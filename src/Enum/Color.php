@@ -501,6 +501,7 @@ enum Color: int
 				return $case;
 			}
 		}
+		
 		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
 	}
 
@@ -529,6 +530,7 @@ enum Color: int
 				return $case;
 			}
 		}
+		
 		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
 	}
 
@@ -550,6 +552,7 @@ enum Color: int
 				return $case;
 			}
 		}
+		
 		throw new \ValueError("Aucune couleur trouvée avec le titre '{$title}'.");
 	}
 
