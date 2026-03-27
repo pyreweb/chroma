@@ -585,6 +585,57 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son code RGB
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGB est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code RGB donné
+	 */
+	public static function fromRgb(string $rgb): self
+	{
+		ColorService::validateRgb($rgb);
+
+		preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches);
+		$normalized = "rgb({$matches[1]}, {$matches[2]}, {$matches[3]})";
+
+		foreach (self::cases() as $case) {
+			if ($case->getRgb() === $normalized) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code RGB '{$rgb}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code RGBA
+	 *
+	 * Le canal alpha est ignoré lors de la recherche : seules les composantes RGB
+	 * sont utilisées pour identifier la couleur correspondante.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGBA est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond aux composantes RGB extraites
+	 */
+	public static function fromRgba(string $rgba): self
+	{
+		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*\d+(?:\.\d+)?\s*\)$/', $rgba, $matches)) {
+			throw new \InvalidArgumentException("Format RGBA invalide : '{$rgba}'.");
+		}
+
+		return self::fromRgb("rgb({$matches[1]}, {$matches[2]}, {$matches[3]})");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
