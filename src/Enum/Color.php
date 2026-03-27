@@ -716,16 +716,22 @@ enum Color: int
 	 *
 	 * La valeur fournie doit correspondre exactement au format produit par
 	 * {@see ColorService::rgb2oklch()} (ex. 'oklch(0.6274 0.2007 22.15)').
-	 * Lance une ValueError si aucune couleur ne correspond.
+	 * Lance une InvalidArgumentException si le format est invalide,
+	 * ou une ValueError si aucune couleur ne correspond.
 	 *
 	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
 	 *
 	 * @return self La couleur correspondante
 	 *
+	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
 	 * @throws \ValueError Si aucune couleur ne correspond au code OKLCH donné
 	 */
 	public static function fromOklch(string $oklch): self
 	{
+		if (!preg_match('/^oklch\(\d+(?:\.\d+)? \d+(?:\.\d+)? \d+(?:\.\d+)?\)$/', $oklch)) {
+			throw new \InvalidArgumentException("Format OKLCH invalide : '{$oklch}'.");
+		}
+
 		foreach (self::cases() as $case) {
 			if ($case->getOklch() === $oklch) {
 				return $case;

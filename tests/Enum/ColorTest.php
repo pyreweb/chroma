@@ -133,6 +133,27 @@ class ColorTest extends TestCase
 		$this->assertStringStartsWith('oklch(1 ', Color::White->getOklch());
 	}
 
+	public function testFromOklchReturnsCorrectCase(): void
+	{
+		$oklch = Color::Red500->getOklch();
+
+		$this->assertSame(Color::Red500, Color::fromOklch($oklch));
+	}
+
+	public function testFromOklchThrowsValueErrorForUnknownOklch(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromOklch('oklch(0.9999 0.9999 359.99)');
+	}
+
+	public function testFromOklchThrowsInvalidArgumentExceptionForInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		Color::fromOklch('oklch(0, 0, 0)');
+	}
+
 	public function testToArrayContainsAllKeys(): void
 	{
 		$array = Color::Black->toArray();
