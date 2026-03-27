@@ -470,7 +470,7 @@ enum Color: int
 	/**
 	 * Trouver une couleur par son identifiant
 	 *
-	 * Equivalent à Color::from($id). Lance une ValueError si aucune couleur ne correspond.
+	 * Équivalent à Color::from($id). Lance une ValueError si aucune couleur ne correspond.
 	 *
 	 * @param int $id L'identifiant de la couleur
 	 *
@@ -501,7 +501,7 @@ enum Color: int
 				return $case;
 			}
 		}
-		throw new \ValueError("No Color found with name '{$name}'.");
+		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
 	}
 
 	/**
@@ -509,22 +509,27 @@ enum Color: int
 	 *
 	 * Retourne la première couleur correspondante, car plusieurs palettes peuvent
 	 * partager le même code numérique (ex. 500 pour Red500, Orange500, etc.).
-	 * Lance une ValueError si aucune couleur ne correspond.
+	 * Lance une ValueError si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond.
 	 *
-	 * @param int $code Le code numérique de la couleur (ex. 500)
+	 * @param int $code Le code numérique de la couleur (ex. 500), doit être un entier positif
 	 *
 	 * @return self La première couleur correspondante
 	 *
-	 * @throws \ValueError Si aucune couleur ne correspond au code donné
+	 * @throws \ValueError Si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond au code donné
 	 */
 	public static function fromCode(int $code): self
 	{
+		if ($code <= 0) {
+			throw new \ValueError("Le code de couleur doit être un entier positif. Valeur fournie : '{$code}'.");
+		}
+
 		foreach (self::cases() as $case) {
-			if ($case->getCode() === $code) {
+			$caseCode = $case->getCode();
+			if ($caseCode > 0 && $caseCode === $code) {
 				return $case;
 			}
 		}
-		throw new \ValueError("No Color found with code '{$code}'.");
+		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
 	}
 
 	/**
@@ -545,7 +550,7 @@ enum Color: int
 				return $case;
 			}
 		}
-		throw new \ValueError("No Color found with title '{$title}'.");
+		throw new \ValueError("Aucune couleur trouvée avec le titre '{$title}'.");
 	}
 
 	/**
