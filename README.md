@@ -52,35 +52,25 @@ foreach (Color::cases() as $color) {
 ```php
 use Pyreweb\Chroma\Enum\Color;
 
-Color::from(105);
-Color::from(Color::Red500->getId());
+Color::from(1);                    // Color:Black
+Color::from(2);                    // Color::White
+Color::from(105);                  // Color::Red500
 
-Color::fromId(105);
-Color::fromId(Color::Red500->getId());
+Color::fromId(1);                  // Color:Black
+Color::fromId(2);                  // Color::White
+Color::fromId(105);                // Color::Red500
 
-Color::fromName('Red500');
-Color::fromName(Color::Red500->getName());
+Color::fromName('Black');          // Color:Black
+Color::fromName('White');          // Color::White
+Color::fromName('Red500');         // Color::Red500
 
-Color::fromTitle('Rouge passion');
-Color::fromTitle(Color::Red500->getTitle());
+Color::fromTitle('Noir');          // Color:Black
+Color::fromTitle('Blanc');         // Color::White
+Color::fromTitle('Rouge passion'); // Color::Red500
 
-Color::fromHex('#ef4444');
-Color::fromHex(Color::Red500->getHex());
-
-Color::fromRgb(Color::Red500->getRgb());
-Color::fromRgba(Color::Red500->getRgba());
-Color::fromHsl(Color::Red500->getHsl());
-Color::fromOklch(Color::Red500->getOklch());
-
-Color::tryFrom(Color::Red500->getId());
-Color::tryFromId(Color::Red500->getId());
-Color::tryFromName(Color::Red500->getName());
-Color::tryFromTitle(Color::Red500->getTitle());
-Color::tryFromHex(Color::Red500->getHex());
-Color::tryFromRgb(Color::Red500->getRgb());
-Color::tryFromRgba(Color::Red500->getRgba());
-Color::tryFromHsl(Color::Red500->getHsl());
-Color::tryFromOklch(Color::Red500->getOklch());
+Color::fromHex('#000000');       // Color:Black
+Color::fromHex('#ffffff');       // Color::White
+Color::fromHex('#ef4444');       // Color::Red500
 ```
 
 ### Convertir une couleur manuellement
@@ -111,36 +101,6 @@ Convert::hex2oklch(Color::Red500->getHex());
 // Hexadécimal vers CMYK
 Convert::hex2cmyk('#ef4444');
 Convert::hex2cmyk(Color::Red500->getHex());
-
-/**
- * Bientôt disponible
- */
-
-// Hexadécimal vers tous les autres
-Convert::hex('#ef4444');
-Convert::hex(Color::Red500->getHex());
-
-// Hexadécimal vers RGB
-Convert::hex('#ef4444')->toRgb();
-Convert::hex(Color::Red500->getHex())->toRgb();
-
-// Hexadécimal vers RGBA
-Convert::hex('#ef4444')->toRgba();
-Convert::hex(Color::Red500->getHex())->toRgba();
-Convert::hex('#ef4444')->toRgba()->withAlpha(0.5);
-Convert::hex(Color::Red500->getHex())->toRgba()->withAlpha(0.5);
-
-// Hexadécimal vers HSL
-Convert::hex('#ef4444')->toHsl();
-Convert::hex(Color::Red500->getHex())->toHsl();
-
-// Hexadécimal vers OKLCH
-Convert::hex('#ef4444')->toOklch();
-Convert::hex(Color::Red500->getHex())->toOklch();
-
-// Hexadécimal vers CMYK
-Convert::hex('#ef4444')->toCmyk();
-Convert::hex(Color::Red500->getHex())->toCmyk();
 ```
 
 ## Palettes disponibles
