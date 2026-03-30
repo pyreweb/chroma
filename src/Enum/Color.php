@@ -1356,27 +1356,27 @@ enum Color: int
 		};
 	}
 
-	public function getRgb(): ?string
+	public function getRgb(): string
 	{
 		return Convert::hex2rgb($this->getHex());
 	}
 
-	public function getRgba(float $alpha = 1.0): ?string
+	public function getRgba(float $alpha = 1.0): string
 	{
 		return Convert::hex2rgba($this->getHex(), $alpha);
 	}
 
-	public function getHsl(): ?string
+	public function getHsl(): string
 	{
 		return Convert::hex2hsl($this->getHex());
 	}
 
-	public function getOklch(): ?string
+	public function getOklch(): string
 	{
 		return Convert::hex2oklch($this->getHex());
 	}
 
-	public function getCmyk(): ?string
+	public function getCmyk(): string
 	{
 		return Convert::hex2cmyk($this->getHex());
 	}
