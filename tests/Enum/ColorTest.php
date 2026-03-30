@@ -542,4 +542,33 @@ class ColorTest extends TestCase
 	{
 		$this->assertNull(Color::tryFromHsl('hsl(0, 0%, 101%)'));
 	}
+
+	public function testTryFromOklchBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::tryFromOklch('oklch(0%, 0%, 0)'));
+		$this->assertSame($expected, Color::tryFromOklch(Color::Black->getOklch()));
+	}
+
+	public function testTryFromOklchWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::tryFromOklch('oklch(100%, 0%, 0)'));
+		$this->assertSame($expected, Color::tryFromOklch(Color::White->getOklch()));
+	}
+
+	public function testTryFromOklchRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::tryFromOklch('oklch(63.68%, 20.78%, 25.33132777693)'));
+		$this->assertSame($expected, Color::tryFromOklch(Color::Red500->getOklch()));
+	}
+
+	public function testTryFromOklchInvalid(): void
+	{
+		$this->assertNull(Color::tryFromOklch('oklch(101%, 0.217, 0)'));
+	}
 }
