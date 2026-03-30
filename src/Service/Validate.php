@@ -10,14 +10,16 @@ namespace Pyreweb\Chroma\Service;
  */
 class Validate
 {
-	public static function hex(string $hex): void
+	public static function hex(string $hex): string
 	{
 		if (!preg_match('/^#?[0-9a-fA-F]{6}$/', $hex)) {
 			throw new \InvalidArgumentException('La couleur hexadécimale doit être au format #RRGGBB ou RRGGBB.');
 		}
+
+		return $hex;
 	}
 
-	public static function rgb(string $rgb): array
+	public static function rgb(string $rgb): string
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
 			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
@@ -27,10 +29,10 @@ class Validate
 			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
 		}
 
-		return $matches;
+		return $rgb;
 	}
 
-	public static function rgba(string $rgba): array
+	public static function rgba(string $rgba): string
 	{
 		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0|1|0?\.\d+)\s*\)$/', $rgba, $matches)) {
 			throw new \InvalidArgumentException(
@@ -50,10 +52,19 @@ class Validate
 			);
 		}
 
-		return $matches;
+		return $rgba;
 	}
 
-	public static function hsl(string $hsl): array
+	public static function alpha(float $alpha): float
+	{
+		if ($alpha < 0.0 || $alpha > 1.0) {
+			throw new \InvalidArgumentException('Le niveau de transparence doit être compris entre 0 et 1.');
+		}
+
+		return $alpha;
+	}
+
+	public static function hsl(string $hsl): string
 	{
 		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
 			throw new \InvalidArgumentException(
@@ -73,10 +84,10 @@ class Validate
 			);
 		}
 
-		return $matches;
+		return $hsl;
 	}
 
-	public static function oklch(string $oklch): array
+	public static function oklch(string $oklch): string
 	{
 		if (!preg_match('/^oklch\(\s*(\d*\.?\d+)\s+(\d*\.?\d+)\s+(\d*\.?\d+)\s*\)$/', $oklch, $matches)) {
 			throw new \InvalidArgumentException(
@@ -102,6 +113,6 @@ class Validate
 			);
 		}
 
-		return $matches;
+		return $oklch;
 	}
 }
