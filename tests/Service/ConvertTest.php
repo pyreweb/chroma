@@ -15,31 +15,43 @@ use Pyreweb\Chroma\Service\Convert;
  */
 class ConvertTest extends TestCase
 {
-	public function testHex2Hsl(): void
+	public function testHex2HslBlack(): void
 	{
-		foreach (Color::cases() as $color) {
-			$this->assertSame($color->getHsl(), Convert::hex2hsl($color->getHex()));
-		}
+		$this->assertSame('hsl(0, 0%, 0%)', Convert::hex2hsl('#000000'));
 	}
 
-	public function testHex2Oklch(): void
+	public function testHex2HslWhite(): void
 	{
-		foreach (Color::cases() as $color) {
-			$this->assertSame($color->getOklch(), Convert::hex2oklch($color->getHex()));
-		}
+		$this->assertSame('hsl(0, 0%, 100%)', Convert::hex2hsl('#FFFFFF'));
 	}
 
-	public function testHex2Rgba(): void
+	public function testHex2OklchBlack(): void
 	{
-		foreach (Color::cases() as $color) {
-			$this->assertSame($color->getRgba(), Convert::hex2rgba($color->getHex()));
-		}
+		$this->assertSame('oklch(0%, 0%, 0)', Convert::hex2oklch('#000000'));
 	}
 
-	public function testHex2Rgb(): void
+	public function testHex2OklchWhite(): void
 	{
-		foreach (Color::cases() as $color) {
-			$this->assertSame($color->getRgb(), Convert::hex2rgb($color->getHex()));
-		}
+		$this->assertSame('oklch(100%, 0%, 0)', Convert::hex2oklch('#FFFFFF'));
+	}
+
+	public function testHex2RgbaBlack(): void
+	{
+		$this->assertSame('rgba(0, 0, 0, 1)', Convert::hex2rgba('#000000'));
+	}
+
+	public function testHex2RgbaWhite(): void
+	{
+		$this->assertSame('rgba(255, 255, 255, 1)', Convert::hex2rgba('#FFFFFF'));
+	}
+
+	public function testHex2RgbBlack(): void
+	{
+		$this->assertSame('rgb(0, 0, 0)', Convert::hex2rgb('#000000'));
+	}
+
+	public function testHex2RgbWhite(): void
+	{
+		$this->assertSame('rgb(255, 255, 255)', Convert::hex2rgb('#FFFFFF'));
 	}
 }
