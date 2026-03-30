@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Pyreweb\Chroma\Service;
 
-use Pyreweb\Chroma\Service\Parse;
-use Pyreweb\Chroma\Service\Validate;
+use Pyreweb\Chroma\Enum\Color;
 
 /**
  * @author Hugo Doueil <hugo@pyreweb.com>
@@ -13,215 +10,163 @@ use Pyreweb\Chroma\Service\Validate;
  */
 class Convert
 {
-	public const DEFAULT_ALPHA = 1.0;
-
-	private const MIN_COMPONENT_VALUE = 0.0;
-	private const UNIT_VALUE = 1.0;
-
-	private const RGB_CHANNEL_MAX = 255;
-	private const PERCENTAGE_FACTOR = 100;
-
-	private const DOUBLE_MULTIPLIER = 2;
-	private const SQUARE_EXPONENT = 2;
-	private const CUBE_ROOT_EXPONENT = 1 / 3;
-
-	private const HSL_LIGHTNESS_DIVISOR = 2;
-	private const HUE_SECTOR_DEGREES = 60;
-	private const FULL_CIRCLE_DEGREES = 360.0;
-	private const MIN_HUE_DEGREES = 0.0;
-
-	private const HUE_RED_MODULO = 6;
-	private const HUE_GREEN_OFFSET = 2;
-	private const HUE_BLUE_OFFSET = 4;
-
-	private const HSL_HUE_PRECISION = 0;
-	private const HSL_PERCENT_PRECISION = 0;
-
-	private const OKLCH_LIGHTNESS_PRECISION = 4;
-	private const OKLCH_CHROMA_PRECISION = 4;
-	private const OKLCH_HUE_PRECISION = 2;
+	private const HEX_SHORT_LENGTH = 3;
+	private const HEX_FULL_LENGTH = 6;
+	private const CHANNEL_MAX = 255;
+	private const PERCENT_MAX = 100;
 
 	private const SRGB_LINEARIZE_THRESHOLD = 0.04045;
-	private const SRGB_LINEARIZE_LOW_DIVISOR = 12.92;
+	private const SRGB_LINEARIZE_DIVISOR = 12.92;
 	private const SRGB_LINEARIZE_OFFSET = 0.055;
-	private const SRGB_LINEARIZE_DIVISOR = 1.055;
+	private const SRGB_LINEARIZE_DIVISOR2 = 1.055;
 	private const SRGB_LINEARIZE_GAMMA = 2.4;
 
-	private const SRGB_TO_XYZ_RX = 0.4124564;
-	private const SRGB_TO_XYZ_RY = 0.2126729;
-	private const SRGB_TO_XYZ_RZ = 0.0193339;
-	private const SRGB_TO_XYZ_GX = 0.3575761;
-	private const SRGB_TO_XYZ_GY = 0.7151522;
-	private const SRGB_TO_XYZ_GZ = 0.1191920;
-	private const SRGB_TO_XYZ_BX = 0.1804375;
-	private const SRGB_TO_XYZ_BY = 0.0721750;
-	private const SRGB_TO_XYZ_BZ = 0.9503041;
+	private const OKLMS_R_L = 0.4122214708;
+	private const OKLMS_R_M = 0.2119034982;
+	private const OKLMS_R_S = 0.0883024619;
+	private const OKLMS_G_L = 0.5363325363;
+	private const OKLMS_G_M = 0.6806995451;
+	private const OKLMS_G_S = 0.2817188376;
+	private const OKLMS_B_L = 0.0514459929;
+	private const OKLMS_B_M = 0.1073969566;
+	private const OKLMS_B_S = 0.6299787005;
 
-	private const XYZ_TO_LMS_LX = 0.8189330101;
-	private const XYZ_TO_LMS_LY = 0.3618667424;
-	private const XYZ_TO_LMS_LZ = -0.1288597137;
-	private const XYZ_TO_LMS_MX = 0.0329845436;
-	private const XYZ_TO_LMS_MY = 0.9293118715;
-	private const XYZ_TO_LMS_MZ = 0.0361456387;
-	private const XYZ_TO_LMS_SX = 0.0482003018;
-	private const XYZ_TO_LMS_SY = 0.2643662691;
-	private const XYZ_TO_LMS_SZ = 0.6338517070;
+	private const OKLAB_L_L = 0.2104542553;
+	private const OKLAB_L_M = 0.7936177850;
+	private const OKLAB_L_S = -0.0040720468;
+	private const OKLAB_A_L = 1.9779984951;
+	private const OKLAB_A_M = -2.4285922050;
+	private const OKLAB_A_S = 0.4505937099;
+	private const OKLAB_B_L = 0.0259040371;
+	private const OKLAB_B_M = 0.7827717662;
+	private const OKLAB_B_S = -0.8086757660;
 
-	private const LMS_TO_OKLAB_LL = 0.2104542553;
-	private const LMS_TO_OKLAB_LM = 0.7936177850;
-	private const LMS_TO_OKLAB_LS = -0.0040720468;
-	private const LMS_TO_OKLAB_AL = 1.9779984951;
-	private const LMS_TO_OKLAB_AM = -2.4285922050;
-	private const LMS_TO_OKLAB_AS = 0.4505937099;
-	private const LMS_TO_OKLAB_BL = 0.0259040371;
-	private const LMS_TO_OKLAB_BM = 0.7827717662;
-	private const LMS_TO_OKLAB_BS = -0.8086757660;
+	private const CBRT_EXPONENT = 1.0 / 3.0;
 
 	public static function hex2rgb(string $hex): string
 	{
-		[$r, $g, $b] = Parse::hex($hex);
+		[$r, $g, $b] = self::parseHex($hex);
 
-		return Validate::rgb("rgb({$r}, {$g}, {$b})");
+		return "rgb($r, $g, $b)";
 	}
 
-	public static function hex2rgba(string $hex, float $alpha = self::DEFAULT_ALPHA): string
+	public static function hex2rgba(string $hex, float $alpha = 1.0): string
 	{
-		return self::rgb2rgba(self::hex2rgb($hex), $alpha);
+		[$r, $g, $b] = self::parseHex($hex);
+
+		return "rgba($r, $g, $b, $alpha)";
 	}
 
 	public static function hex2hsl(string $hex): string
 	{
-		return self::rgb2hsl(self::hex2rgb($hex));
-	}
+		[$r, $g, $b] = self::parseHex($hex);
 
-	public static function hex2oklch(string $hex): string
-	{
-		return self::rgb2oklch(self::hex2rgb($hex));
-	}
-
-	public static function hex2cmyk(string $hex): string
-	{
-		return self::rgb2cmyk(self::hex2rgb($hex));
-	}
-
-	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
-	{
-		Validate::alpha($alpha);
-
-		[$r, $g, $b] = Parse::rgb($rgb);
-
-		return Validate::rgba("rgba({$r}, {$g}, {$b}, {$alpha})");
-	}
-
-	public static function rgb2hsl(string $rgb): string
-	{
-		[$r, $g, $b] = Parse::rgb($rgb);
-
-		$r /= self::RGB_CHANNEL_MAX;
-		$g /= self::RGB_CHANNEL_MAX;
-		$b /= self::RGB_CHANNEL_MAX;
+		$r /= self::CHANNEL_MAX;
+		$g /= self::CHANNEL_MAX;
+		$b /= self::CHANNEL_MAX;
 
 		$max = max($r, $g, $b);
 		$min = min($r, $g, $b);
 		$delta = $max - $min;
-		$l = ($max + $min) / self::HSL_LIGHTNESS_DIVISOR;
 
-		if ($delta == self::MIN_COMPONENT_VALUE) {
-			$h = self::MIN_HUE_DEGREES;
-			$s = self::MIN_COMPONENT_VALUE;
+		$l = ($max + $min) / 2;
+
+		if ($delta < 1e-10) {
+			return "hsl(0, 0%, " . round($l * self::PERCENT_MAX, 2) . "%)";
+		}
+
+		$s = $delta / (1 - abs(2 * $l - 1));
+
+		if (abs($max - $r) < 1e-10) {
+			$h = fmod((($g - $b) / $delta), 6);
+		} elseif (abs($max - $g) < 1e-10) {
+			$h = (($b - $r) / $delta) + 2;
 		} else {
-			$s = $delta / (self::UNIT_VALUE - abs(self::DOUBLE_MULTIPLIER * $l - self::UNIT_VALUE));
-
-			$h = match ($max) {
-				$r => self::HUE_SECTOR_DEGREES * fmod(($g - $b) / $delta, self::HUE_RED_MODULO),
-				$g => self::HUE_SECTOR_DEGREES * (($b - $r) / $delta + self::HUE_GREEN_OFFSET),
-				$b => self::HUE_SECTOR_DEGREES * (($r - $g) / $delta + self::HUE_BLUE_OFFSET),
-			};
-
-			if ($h < self::MIN_HUE_DEGREES) {
-				$h += self::FULL_CIRCLE_DEGREES;
-			}
+			$h = (($r - $g) / $delta) + 4;
 		}
 
-		$h = round($h, self::HSL_HUE_PRECISION);
-		$s = round($s * self::PERCENTAGE_FACTOR, self::HSL_PERCENT_PRECISION);
-		$l = round($l * self::PERCENTAGE_FACTOR, self::HSL_PERCENT_PRECISION);
+		$h = round(fmod(($h * 60 + 360), 360), 2);
 
-		return Validate::hsl("hsl({$h}, {$s}%, {$l}%)");
+		return "hsl($h, " . round($s * self::PERCENT_MAX, 2) . "%, " . round($l * self::PERCENT_MAX, 2) . "%)";
 	}
 
-	public static function rgb2oklch(string $rgb): string
+	public static function hex2oklch(string $hex): string
 	{
-		[$r, $g, $b] = Parse::rgb($rgb);
+		[$r, $g, $b] = self::parseHex($hex);
 
-		$r /= self::RGB_CHANNEL_MAX;
-		$g /= self::RGB_CHANNEL_MAX;
-		$b /= self::RGB_CHANNEL_MAX;
+		$r = self::linearize($r / self::CHANNEL_MAX);
+		$g = self::linearize($g / self::CHANNEL_MAX);
+		$b = self::linearize($b / self::CHANNEL_MAX);
 
-		$linearize = fn(float $c): float => $c <= self::SRGB_LINEARIZE_THRESHOLD
-			? $c / self::SRGB_LINEARIZE_LOW_DIVISOR
-			: (($c + self::SRGB_LINEARIZE_OFFSET) / self::SRGB_LINEARIZE_DIVISOR) ** self::SRGB_LINEARIZE_GAMMA;
+		$lms_l = self::OKLMS_R_L * $r + self::OKLMS_G_L * $g + self::OKLMS_B_L * $b;
+		$lms_m = self::OKLMS_R_M * $r + self::OKLMS_G_M * $g + self::OKLMS_B_M * $b;
+		$lms_s = self::OKLMS_R_S * $r + self::OKLMS_G_S * $g + self::OKLMS_B_S * $b;
 
-		$r = $linearize($r);
-		$g = $linearize($g);
-		$b = $linearize($b);
+		$lms_l = self::cbrt($lms_l);
+		$lms_m = self::cbrt($lms_m);
+		$lms_s = self::cbrt($lms_s);
 
-		$x = $r * self::SRGB_TO_XYZ_RX + $g * self::SRGB_TO_XYZ_GX + $b * self::SRGB_TO_XYZ_BX;
-		$y = $r * self::SRGB_TO_XYZ_RY + $g * self::SRGB_TO_XYZ_GY + $b * self::SRGB_TO_XYZ_BY;
-		$z = $r * self::SRGB_TO_XYZ_RZ + $g * self::SRGB_TO_XYZ_GZ + $b * self::SRGB_TO_XYZ_BZ;
+		$L = self::OKLAB_L_L * $lms_l + self::OKLAB_L_M * $lms_m + self::OKLAB_L_S * $lms_s;
+		$a = self::OKLAB_A_L * $lms_l + self::OKLAB_A_M * $lms_m + self::OKLAB_A_S * $lms_s;
+		$bVal = self::OKLAB_B_L * $lms_l + self::OKLAB_B_M * $lms_m + self::OKLAB_B_S * $lms_s;
 
-		$l = $x * self::XYZ_TO_LMS_LX + $y * self::XYZ_TO_LMS_LY + $z * self::XYZ_TO_LMS_LZ;
-		$m = $x * self::XYZ_TO_LMS_MX + $y * self::XYZ_TO_LMS_MY + $z * self::XYZ_TO_LMS_MZ;
-		$s = $x * self::XYZ_TO_LMS_SX + $y * self::XYZ_TO_LMS_SY + $z * self::XYZ_TO_LMS_SZ;
+		$C = sqrt($a ** 2 + $bVal ** 2);
+		$H = fmod(rad2deg(atan2($bVal, $a)) + 360, 360);
 
-		$cbrt = fn(float $v): float => $v >= self::MIN_COMPONENT_VALUE
-			? $v ** self::CUBE_ROOT_EXPONENT
-			: -((-$v) ** self::CUBE_ROOT_EXPONENT);
-
-		$l = $cbrt($l);
-		$m = $cbrt($m);
-		$s = $cbrt($s);
-
-		$L = $l * self::LMS_TO_OKLAB_LL + $m * self::LMS_TO_OKLAB_LM + $s * self::LMS_TO_OKLAB_LS;
-		$a = $l * self::LMS_TO_OKLAB_AL + $m * self::LMS_TO_OKLAB_AM + $s * self::LMS_TO_OKLAB_AS;
-		$b = $l * self::LMS_TO_OKLAB_BL + $m * self::LMS_TO_OKLAB_BM + $s * self::LMS_TO_OKLAB_BS;
-
-		$C = sqrt($a ** self::SQUARE_EXPONENT + $b ** self::SQUARE_EXPONENT);
-		$h = rad2deg(atan2($b, $a));
-
-		if ($h < self::MIN_HUE_DEGREES) {
-			$h += self::FULL_CIRCLE_DEGREES;
-		}
-
-		$L = round($L, self::OKLCH_LIGHTNESS_PRECISION);
-		$C = round($C, self::OKLCH_CHROMA_PRECISION);
-		$h = round($h, self::OKLCH_HUE_PRECISION);
-
-		return Validate::oklch("oklch({$L} {$C} {$h})");
+		return "oklch(" . round($L * self::PERCENT_MAX, 2) . "%, " . round($C * self::PERCENT_MAX, 2) . "%, $H)";
 	}
 
-	public static function rgb2cmyk(string $rgb): string
+	public static function hex2cmyk(string $hex): string
 	{
-		[$r, $g, $b] = Parse::rgb($rgb);
+		[$r, $g, $b] = self::parseHex($hex);
 
-		if ($r == self::MIN_COMPONENT_VALUE && $g == self::MIN_COMPONENT_VALUE && $b == self::MIN_COMPONENT_VALUE) {
-			return Validate::cmyk("cmyk(0%, 0%, 0%, 100%)");
-		}
-
-		$r /= self::RGB_CHANNEL_MAX;
-		$g /= self::RGB_CHANNEL_MAX;
-		$b /= self::RGB_CHANNEL_MAX;
+		$r /= self::CHANNEL_MAX;
+		$g /= self::CHANNEL_MAX;
+		$b /= self::CHANNEL_MAX;
 
 		$k = 1 - max($r, $g, $b);
+
+		if ($k === 1.0) {
+			return "cmyk(0%, 0%, 0%, " . round($k * self::PERCENT_MAX, 2) . "%)";
+		}
+
 		$c = (1 - $r - $k) / (1 - $k);
 		$m = (1 - $g - $k) / (1 - $k);
 		$y = (1 - $b - $k) / (1 - $k);
 
-		$c = round($c * self::PERCENTAGE_FACTOR);
-		$m = round($m * self::PERCENTAGE_FACTOR);
-		$y = round($y * self::PERCENTAGE_FACTOR);
-		$k = round($k * self::PERCENTAGE_FACTOR);
+		return "cmyk(" . round($c * self::PERCENT_MAX, 2) . "%, " . round($m * self::PERCENT_MAX, 2) . "%, " . round($y * self::PERCENT_MAX, 2) . "%, " . round($k * self::PERCENT_MAX, 2) . "%)";
+	}
 
-		return Validate::cmyk("cmyk({$c}%, {$m}%, {$y}%, {$k}%)");
+	private static function parseHex(string $hex): array
+	{
+		$hex = ltrim($hex, '#');
+
+		if (strlen($hex) === self::HEX_SHORT_LENGTH) {
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+		}
+
+		return [
+			hexdec(substr($hex, 0, 2)),
+			hexdec(substr($hex, 2, 2)),
+			hexdec(substr($hex, 4, 2)),
+		];
+	}
+
+	private static function linearize(float $value): float
+	{
+		return $value <= self::SRGB_LINEARIZE_THRESHOLD
+			? $value / self::SRGB_LINEARIZE_DIVISOR
+			: (($value + self::SRGB_LINEARIZE_OFFSET) / self::SRGB_LINEARIZE_DIVISOR2) ** self::SRGB_LINEARIZE_GAMMA;
+	}
+
+	private static function cbrt(float $value): float
+	{
+		if ($value === 0.0) {
+			return 0.0;
+		}
+
+		return $value < 0
+			? -((-$value) ** self::CBRT_EXPONENT)
+			: $value ** self::CBRT_EXPONENT;
 	}
 }
