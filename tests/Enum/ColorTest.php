@@ -716,4 +716,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame('oklch(63.68%, 20.78%, 25.33132777693)', Color::Red500->getOklch());
 	}
+
+	public function testGetCmykBlack(): void
+	{
+		$this->assertSame('cmyk(0%, 0%, 0%, 100%)', Color::Black->getCmyk());
+	}
+
+	public function testGetCmykWhite(): void
+	{
+		$this->assertSame('cmyk(0%, 0%, 0%, 0%)', Color::White->getCmyk());
+	}
+
+	public function testGetCmykRed500(): void
+	{
+		$this->assertSame('cmyk(0%, 71.55%, 71.55%, 6.27%)', Color::Red500->getCmyk());
+	}
 }
