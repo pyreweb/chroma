@@ -270,4 +270,35 @@ class ColorTest extends TestCase
 
 		Color::fromHsl('hsl(0, 0%, 101%)');
 	}
+
+	public function testFromOklchBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromOklch('oklch(0%, 0%, 0)'));
+		$this->assertSame($expected, Color::fromOklch(Color::Black->getOklch()));
+	}
+
+	public function testFromOklchWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromOklch('oklch(100%, 0%, 0)'));
+		$this->assertSame($expected, Color::fromOklch(Color::White->getOklch()));
+	}
+
+	public function testFromOklchRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromOklch('oklch(63.68%, 20.78%, 25.33132777693)'));
+		$this->assertSame($expected, Color::fromOklch(Color::Red500->getOklch()));
+	}
+
+	public function testFromOklchInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromOklch('oklch(101%, 0.217, 0)');
+	}
 }
