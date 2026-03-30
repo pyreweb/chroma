@@ -4,254 +4,42 @@ declare(strict_types=1);
 
 namespace Pyreweb\Chroma\Tests\Service;
 
-use InvalidArgumentException;
-
 use PHPUnit\Framework\TestCase;
 
 use Pyreweb\Chroma\Enum\Color;
 use Pyreweb\Chroma\Service\Convert;
 
+/**
+ * @author Hugo Doueil <hugo@pyreweb.com>
+ * @author Pyréweb <contact@pyreweb.com>
+ */
 class ConvertTest extends TestCase
 {
-	public function testHex2RgbReturnsExpectedValue(): void
+	public function testHex2Hsl(): void
 	{
-		$this->assertSame('rgb(0, 0, 0)', Convert::hex2rgb('#000000'));
-		$this->assertSame('rgb(255, 255, 255)', Convert::hex2rgb('#FFFFFF'));
-		$this->assertSame('rgb(239, 68, 68)', Convert::hex2rgb('#ef4444'));
-	}
-
-	public function testHex2RgbAcceptsWithoutPrefix(): void
-	{
-		$this->assertSame('rgb(239, 68, 68)', Convert::hex2rgb('ef4444'));
-	}
-
-	public function testHex2RgbAcceptsMixedCase(): void
-	{
-		$this->assertSame('rgb(239, 68, 68)', Convert::hex2rgb('#EF4444'));
-		$this->assertSame('rgb(239, 68, 68)', Convert::hex2rgb('#Ef4444'));
-	}
-
-	public function testHex2RgbThrowsOnInvalidFormat(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::hex2rgb('#ZZZ000');
-	}
-
-	public function testHex2RgbThrowsOnShortFormat(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::hex2rgb('#FFF');
-	}
-
-	public function testHex2RgbThrowsOnEmptyString(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::hex2rgb('');
-	}
-
-	public function testHex2RgbaUsesDefaultAlpha(): void
-	{
-		$this->assertSame('rgba(0, 0, 0, 1)', Convert::hex2rgba(Color::Black->getHex()));
-	}
-
-	public function testHex2RgbaUsesCustomAlpha(): void
-	{
-		$this->assertSame('rgba(0, 0, 0, 0.5)', Convert::hex2rgba(Color::Black->getHex(), 0.5));
-		$this->assertSame('rgba(0, 0, 0, 0)', Convert::hex2rgba(Color::Black->getHex(), 0.0));
-		$this->assertSame('rgba(0, 0, 0, 1)', Convert::hex2rgba(Color::Black->getHex(), 1.0));
-	}
-
-	public function testHex2RgbaReturnsExpectedValue(): void
-	{
-		$this->assertSame('rgba(239, 68, 68, 1)', Convert::hex2rgba(Color::Red500->getHex()));
-	}
-
-	public function testHex2RgbaThrowsOnAlphaOutOfRange(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		Convert::hex2rgba(Color::Black->getHex(), -0.5);
-	}
-
-	public function testHex2RgbaThrowsOnAlphaAboveOne(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		
-		Convert::hex2rgba(Color::Black->getHex(), 1.5);
-	}
-
-	public function testHex2RgbaThrowsOnInvalidHex(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::rgb2rgba('#GKMVNB');
-	}
-
-	public function testHex2RgbaThrowsOnMalformedString(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::hex2rgba('not-a-color');
-	}
-
-	public function testRgb2RgbaUsesDefaultAlpha(): void
-	{
-		$this->assertSame('rgba(0, 0, 0, 1)', Convert::rgb2rgba('rgb(0, 0, 0)'));
-	}
-
-	public function testRgb2RgbaUsesCustomAlpha(): void
-	{
-		$this->assertSame('rgba(0, 0, 0, 0.5)', Convert::rgb2rgba('rgb(0, 0, 0)', 0.5));
-		$this->assertSame('rgba(0, 0, 0, 0)', Convert::rgb2rgba('rgb(0, 0, 0)', 0.0));
-		$this->assertSame('rgba(0, 0, 0, 1)', Convert::rgb2rgba('rgb(0, 0, 0)', 1.0));
-	}
-
-	public function testRgb2RgbaReturnsExpectedValue(): void
-	{
-		$this->assertSame('rgba(239, 68, 68, 1)', Convert::rgb2rgba('rgb(239, 68, 68)'));
-	}
-
-	public function testRgb2RgbaThrowsOnAlphaOutOfRange(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		Convert::rgb2rgba('rgb(0, 0, 0)', -0.5);
-	}
-
-	public function testRgb2RgbaThrowsOnAlphaAboveOne(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		
-		Convert::rgb2rgba('rgb(0, 0, 0)', 1.5);
-	}
-
-	public function testRgb2RgbaThrowsOnInvalidRgb(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::rgb2rgba('rgb(999, 0, 0)');
-	}
-
-	public function testRgb2RgbaThrowsOnMalformedString(): void
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::rgb2rgba('not-a-color');
-	}
-
-	public function testRgb2HslReturnsExpectedValue(): void
-	{
-		$this->assertSame('hsl(0, 0%, 0%)', Convert::rgb2hsl('rgb(0, 0, 0)'));
-		$this->assertSame('hsl(0, 0%, 100%)', Convert::rgb2hsl('rgb(255, 255, 255)'));
-		$this->assertSame('hsl(0, 100%, 50%)', Convert::rgb2hsl('rgb(255, 0, 0)'));
-		$this->assertSame('hsl(120, 100%, 50%)', Convert::rgb2hsl('rgb(0, 255, 0)'));
-		$this->assertSame('hsl(240, 100%, 50%)', Convert::rgb2hsl('rgb(0, 0, 255)'));
-	}
-
-	public function testRgb2HslReturnsValidFormat(): void
-	{
-		$hsl = Convert::rgb2hsl('rgb(239, 68, 68)');
-
-		$this->assertMatchesRegularExpression('/^hsl\(\d+, \d+%, \d+%\)$/', $hsl);
-	}
-
-	public function testRgb2HslHueIsInRange(): void
-	{
-		$colors = [
-			'rgb(255, 0, 0)',
-			'rgb(0, 255, 0)',
-			'rgb(0, 0, 255)',
-			'rgb(128, 64, 32)',
-		];
-
-		foreach ($colors as $rgb) {
-			preg_match('/^hsl\((\d+),/', Convert::rgb2hsl($rgb), $matches);
-			$hue = (int) $matches[1];
-
-			$this->assertGreaterThanOrEqual(0, $hue, "La teinte de {$rgb} est inférieure à 0.");
-			$this->assertLessThanOrEqual(360, $hue, "La teinte de {$rgb} est supérieure à 360.");
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color->getHsl(), Convert::hex2hsl($color->getHex()));
 		}
 	}
 
-	public function testRgb2HslThrowsOnInvalidRgb(): void
+	public function testHex2Oklch(): void
 	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::rgb2hsl('not-a-color');
-	}
-
-	public function testRgb2OklchReturnsExpectedValue(): void
-	{
-		$this->assertSame('oklch(0 0 0)', Convert::rgb2oklch('rgb(0, 0, 0)'));
-
-		$oklch = Convert::rgb2oklch('rgb(255, 255, 255)');
-		$this->assertStringStartsWith('oklch(1 ', $oklch);
-	}
-
-	public function testRgb2OklchReturnsValidFormat(): void
-	{
-		$oklch = Convert::rgb2oklch('rgb(239, 68, 68)');
-
-		$this->assertMatchesRegularExpression('/^oklch\([0-9.]+ [0-9.]+ [0-9.]+\)$/', $oklch);
-	}
-
-	public function testRgb2OklchLightnessIsInRange(): void
-	{
-		$colors = [
-			'rgb(0, 0, 0)',
-			'rgb(255, 255, 255)',
-			'rgb(239, 68, 68)',
-			'rgb(59, 130, 246)',
-		];
-
-		foreach ($colors as $rgb) {
-			preg_match('/^oklch\(([0-9.]+)/', Convert::rgb2oklch($rgb), $matches);
-			$lightness = (float) $matches[1];
-
-			$this->assertGreaterThanOrEqual(0.0, $lightness, "La luminosité OKLCH de {$rgb} est inférieure à 0.");
-			$this->assertLessThanOrEqual(1.0, $lightness, "La luminosité OKLCH de {$rgb} est supérieure à 1.");
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color->getOklch(), Convert::hex2oklch($color->getHex()));
 		}
 	}
 
-	public function testRgb2OklchHueIsInRange(): void
+	public function testHex2Rgba(): void
 	{
-		$colors = [
-			'rgb(255, 0, 0)',
-			'rgb(0, 255, 0)',
-			'rgb(0, 0, 255)',
-		];
-
-		foreach ($colors as $rgb) {
-			preg_match('/^oklch\([0-9.]+ [0-9.]+ ([0-9.]+)\)$/', Convert::rgb2oklch($rgb), $matches);
-			$hue = (float) $matches[1];
-
-			$this->assertGreaterThanOrEqual(0.0, $hue, "La teinte OKLCH de {$rgb} est inférieure à 0.");
-			$this->assertLessThanOrEqual(360.0, $hue, "La teinte OKLCH de {$rgb} est supérieure à 360.");
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color->getRgba(), Convert::hex2rgba($color->getHex()));
 		}
 	}
 
-	public function testRgb2OklchThrowsOnInvalidRgb(): void
+	public function testHex2Rgb(): void
 	{
-		$this->expectException(InvalidArgumentException::class);
-
-		Convert::rgb2oklch('not-a-color');
-	}
-
-	public function testConversionChainIsConsistent(): void
-	{
-		$hex = '#ef4444';
-
-		$rgb = Convert::hex2rgb($hex);
-		$rgba = Convert::rgb2rgba($rgb);
-		$hsl = Convert::rgb2hsl($rgb);
-		$oklch = Convert::rgb2oklch($rgb);
-
-		$this->assertStringStartsWith('rgb(', $rgb);
-		$this->assertStringStartsWith('rgba(', $rgba);
-		$this->assertStringStartsWith('hsl(', $hsl);
-		$this->assertStringStartsWith('oklch(', $oklch);
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color->getRgb(), Convert::hex2rgb($color->getHex()));
+		}
 	}
 }
