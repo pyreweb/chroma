@@ -14,12 +14,12 @@ use Pyreweb\Chroma\Enum\Color;
  */
 class ColorTest extends TestCase
 {
-	// public function testFrom(): void
-	// {
-	// 	foreach (Color::cases() as $color) {
-	// 		$this->assertSame($color, Color::from($color->getId()));
-	// 	}
-	// }
+	public function testFrom(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::from($color->getId()));
+		}
+	}
 
 	// public function testFromId(): void
 	// {
