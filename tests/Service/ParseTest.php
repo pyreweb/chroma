@@ -15,9 +15,13 @@ use Pyreweb\Chroma\Service\Parse;
  */
 class ParseTest extends TestCase
 {
-	public function testHex(): void
+	public function testHexBlack(): void
 	{
 		$this->assertSame([0, 0, 0], Parse::hex(Color::Black->getHex()));
+	}
+
+	public function testHexWhite(): void
+	{
 		$this->assertSame([255, 255, 255], Parse::hex(Color::White->getHex()));
 	}
 }
