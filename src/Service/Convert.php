@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pyreweb\Chroma\Service;
 
 use Pyreweb\Chroma\Service\Parse;
+use Pyreweb\Chroma\Service\Validate;
 
 /**
  * @author Hugo Doueil <hugo@pyreweb.com>
@@ -78,9 +79,9 @@ class Convert
 
 	public static function hex2rgb(string $hex): string
 	{
-		$rgb = Parse::hex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
-		return "rgb({$rgb[0]}, {$rgb[1]}, {$rgb[2]})";
+		return Validate::rgb("rgb({$r}, {$g}, {$b})");
 	}
 
 	public static function hex2rgba(string $hex, float $alpha = self::DEFAULT_ALPHA): string
@@ -100,20 +101,16 @@ class Convert
 
 	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
 	{
-		if ($alpha < 0.0 || $alpha > 1.0) {
-			throw new \InvalidArgumentException('Le niveau de transparence doit être compris entre 0 et 1.');
-		}
+		Validate::alpha($alpha);
 
-		$rgb = Parse::rgb($rgb);
+		[$r, $g, $b] = Parse::rgb($rgb);
 
-		return "rgba({$rgb[0]}, {$rgb[1]}, {$rgb[2]}, {$alpha})";
+		return Validate::rgba("rgba({$r}, {$g}, {$b}, {$alpha})");
 	}
 
 	public static function rgb2hsl(string $rgb): string
 	{
-		$rgb = Parse::rgb($rgb);
-
-		[$r, $g, $b] = $rgb;
+		[$r, $g, $b] = Parse::rgb($rgb);
 
 		$r /= self::RGB_CHANNEL_MAX;
 		$g /= self::RGB_CHANNEL_MAX;
@@ -145,14 +142,12 @@ class Convert
 		$s = round($s * self::PERCENTAGE_FACTOR, self::HSL_PERCENT_PRECISION);
 		$l = round($l * self::PERCENTAGE_FACTOR, self::HSL_PERCENT_PRECISION);
 
-		return "hsl({$h}, {$s}%, {$l}%)";
+		return Validate::hsl("hsl({$h}, {$s}%, {$l}%)");
 	}
 
 	public static function rgb2oklch(string $rgb): string
 	{
-		$rgb = Parse::rgb($rgb);
-
-		[$r, $g, $b] = $rgb;
+		[$r, $g, $b] = Parse::rgb($rgb);
 
 		$r /= self::RGB_CHANNEL_MAX;
 		$g /= self::RGB_CHANNEL_MAX;
@@ -197,6 +192,6 @@ class Convert
 		$C = round($C, self::OKLCH_CHROMA_PRECISION);
 		$h = round($h, self::OKLCH_HUE_PRECISION);
 
-		return "oklch({$L} {$C} {$h})";
+		return Validate::oklch("oklch({$L} {$C} {$h})");
 	}
 }
