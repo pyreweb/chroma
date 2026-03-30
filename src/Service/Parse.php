@@ -24,101 +24,39 @@ class Parse
 		Validate::hex($hex);
 
 		$hex = ltrim($hex, self::HEX_PREFIX);
-		$r = hexdec(substr($hex, self::HEX_RED_OFFSET, self::HEX_COMPONENT_LENGTH));
-		$g = hexdec(substr($hex, self::HEX_GREEN_OFFSET, self::HEX_COMPONENT_LENGTH));
-		$b = hexdec(substr($hex, self::HEX_BLUE_OFFSET, self::HEX_COMPONENT_LENGTH));
 
-		return [$r, $g, $b];
+		return [
+			(int)substr($hex, self::HEX_RED_OFFSET, self::HEX_COMPONENT_LENGTH),
+			(int)substr($hex, self::HEX_GREEN_OFFSET, self::HEX_COMPONENT_LENGTH),
+			(int)substr($hex, self::HEX_BLUE_OFFSET, self::HEX_COMPONENT_LENGTH),
+		];
 	}
 
 	public static function rgb(string $rgb): array
 	{
-		$matches = Validate::rgb($rgb);
+		preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches);
 
-		$r = (int) $matches[1];
-		$g = (int) $matches[2];
-		$b = (int) $matches[3];
-
-		if ($r > 255 || $g > 255 || $b > 255) {
-			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
-		}
-
-		return [$r, $g, $b];
+		return [(int)$matches[1], (int)$matches[2], (int)$matches[3]];
 	}
 
 	public static function rgba(string $rgba): array
 	{
-		$matches = Validate::rgba($rgba);
+		preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0|1|0?\.\d+)\s*\)$/', $rgba, $matches);
 
-		$r = (int) $matches[1];
-		$g = (int) $matches[2];
-		$b = (int) $matches[3];
-		$a = (float) $matches[4];
-
-		if ($r > 255 || $g > 255 || $b > 255) {
-			throw new \InvalidArgumentException(
-				'La couleur RGBA doit être au format rgba(R, G, B, A) avec R, G et B entre 0 et 255 et A entre 0 et 1.'
-			);
-		}
-
-		if ($a < 0.0 || $a > 1.0) {
-			throw new \InvalidArgumentException(
-				'La couleur RGBA doit être au format rgba(R, G, B, A) avec R, G et B entre 0 et 255 et A entre 0 et 1.'
-			);
-		}
-
-		return [$r, $g, $b, $a];
+		return [(int)$matches[1], (int)$matches[2], (int)$matches[3], (float)$matches[4]];
 	}
 
 	public static function hsl(string $hsl): array
 	{
-		$matches = Validate::hsl($hsl);
+		preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches);
 
-		$h = (int) $matches[1];
-		$s = (int) $matches[2];
-		$l = (int) $matches[3];
-
-		if ($h < 0 || $h > 360) {
-			throw new \InvalidArgumentException(
-				'La couleur HSL doit être au format hsl(H, S%, L%) avec H entre 0 et 360, S et L entre 0 et 100.'
-			);
-		}
-
-		if ($s < 0 || $s > 100 || $l < 0 || $l > 100) {
-			throw new \InvalidArgumentException(
-				'La couleur HSL doit être au format hsl(H, S%, L%) avec H entre 0 et 360, S et L entre 0 et 100.'
-			);
-		}
-
-		return [$h, $s, $l];
+		return [(int)$matches[1], (int)$matches[2], (int)$matches[3]];
 	}
 
 	public static function oklch(string $oklch): array
 	{
-		$matches = Validate::oklch($oklch);
+		preg_match('/^oklch\(\s*(\d{1,3}(?:\.\d+)?)\s+(\d{1,3}(?:\.\d+)?)\s+(\d{1,3}(?:\.\d+)?)\s*\)$/', $oklch, $matches);
 
-		$L = (float) $matches[1];
-		$C = (float) $matches[2];
-		$h = (float) $matches[3];
-
-		if ($L < 0.0 || $L > 1.0) {
-			throw new \InvalidArgumentException(
-				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
-			);
-		}
-
-		if ($C < 0.0) {
-			throw new \InvalidArgumentException(
-				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
-			);
-		}
-
-		if ($h < 0.0 || $h > 360.0) {
-			throw new \InvalidArgumentException(
-				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
-			);
-		}
-
-		return [$L, $C, $h];
+		return [(float)$matches[1], (float)$matches[2], (float)$matches[3]];
 	}
 }
