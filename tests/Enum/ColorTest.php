@@ -239,4 +239,35 @@ class ColorTest extends TestCase
 
 		Color::fromRgba('rgba(256, 256, 256, 1)');
 	}
+
+	public function testFromHslBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromHsl('hsl(0, 0%, 0%)'));
+		$this->assertSame($expected, Color::fromHsl(Color::Black->getHsl()));
+	}
+
+	public function testFromHslWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromHsl('hsl(0, 0%, 100%)'));
+		$this->assertSame($expected, Color::fromHsl(Color::White->getHsl()));
+	}
+
+	public function testFromHslRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromHsl('hsl(0, 84.24%, 60.2%)'));
+		$this->assertSame($expected, Color::fromHsl(Color::Red500->getHsl()));
+	}
+
+	public function testFromHslInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromHsl('hsl(0, 0%, 101%)');
+	}
 }
