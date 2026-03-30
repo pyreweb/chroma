@@ -52,25 +52,25 @@ foreach (Color::cases() as $color) {
 ```php
 use Pyreweb\Chroma\Enum\Color;
 
-Color::from(1);                    // Color:Black
-Color::from(2);                    // Color::White
-Color::from(105);                  // Color::Red500
+Color::from(1);                     // Color:Black
+Color::from(2);                     // Color::White
+Color::from(105);                   // Color::Red500
 
-Color::fromId(1);                  // Color:Black
-Color::fromId(2);                  // Color::White
-Color::fromId(105);                // Color::Red500
+Color::fromId(1);                   // Color:Black
+Color::fromId(2);                   // Color::White
+Color::fromId(105);                 // Color::Red500
 
-Color::fromName('Black');          // Color:Black
-Color::fromName('White');          // Color::White
-Color::fromName('Red500');         // Color::Red500
+Color::fromName('Black');           // Color:Black
+Color::fromName('White');           // Color::White
+Color::fromName('Red500');          // Color::Red500
 
-Color::fromTitle('Noir');          // Color:Black
-Color::fromTitle('Blanc');         // Color::White
-Color::fromTitle('Rouge passion'); // Color::Red500
+Color::fromTitle('Noir');           // Color:Black
+Color::fromTitle('Blanc');          // Color::White
+Color::fromTitle('Rouge passion');  // Color::Red500
 
-Color::fromHex('#000000');       // Color:Black
-Color::fromHex('#ffffff');       // Color::White
-Color::fromHex('#ef4444');       // Color::Red500
+Color::fromHex('#000000');          // Color:Black
+Color::fromHex('#ffffff');          // Color::White
+Color::fromHex('#ef4444');          // Color::Red500
 ```
 
 ### Convertir une couleur manuellement
