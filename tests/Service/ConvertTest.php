@@ -79,6 +79,14 @@ class ConvertTest extends TestCase
 		$this->assertSame($expected, Convert::hex2hsl(Color::White->getHex()));
 	}
 
+	public function testHex2HslRed500(): void
+	{
+		$expected = 'hsl(0, 84.24%, 60.2%)';
+
+		$this->assertSame($expected, Convert::hex2hsl('#ef4444'));
+		$this->assertSame($expected, Convert::hex2hsl(Color::Red500->getHex()));
+	}
+
 	public function testHex2OklchBlack(): void
 	{
 		$expected = 'oklch(0%, 0%, 0)';
