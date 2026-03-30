@@ -365,4 +365,36 @@ class ColorTest extends TestCase
 	{
 		$this->assertNull(Color::tryFromId(999999));
 	}
+
+	public function testTryFromNameBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::tryFromName('Black'));
+		$this->assertSame($expected, Color::tryFromName(Color::Black->name));
+		$this->assertSame($expected, Color::tryFromName(Color::Black->getName()));
+	}
+
+	public function testTryFromNameWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::tryFromName('White'));
+		$this->assertSame($expected, Color::tryFromName(Color::White->name));
+		$this->assertSame($expected, Color::tryFromName(Color::White->getName()));
+	}
+
+	public function testTryFromNameRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::tryFromName('Red500'));
+		$this->assertSame($expected, Color::tryFromName(Color::Red500->name));
+		$this->assertSame($expected, Color::tryFromName(Color::Red500->getName()));
+	}
+
+	public function testTryFromNameInvalid(): void
+	{
+		$this->assertNull(Color::tryFromName('InvalidColor'));
+	}
 }
