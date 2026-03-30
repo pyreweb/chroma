@@ -426,4 +426,33 @@ class ColorTest extends TestCase
 	{
 		$this->assertNull(Color::tryFromTitle('Invalid Color'));
 	}
+
+	public function testTryFromHexBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::tryFromHex('#000000'));
+		$this->assertSame($expected, Color::tryFromHex(Color::Black->getHex()));
+	}
+
+	public function testTryFromHexWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::tryFromHex('#ffffff'));
+		$this->assertSame($expected, Color::tryFromHex(Color::White->getHex()));
+	}
+
+	public function testTryFromHexRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::tryFromHex('#ef4444'));
+		$this->assertSame($expected, Color::tryFromHex(Color::Red500->getHex()));
+	}
+
+	public function testTryFromHexInvalid(): void
+	{
+		$this->assertNull(Color::tryFromHex('#gggggg'));
+	}
 }
