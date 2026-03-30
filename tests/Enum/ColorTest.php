@@ -701,4 +701,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame('hsl(0, 84.24%, 60.2%)', Color::Red500->getHsl());
 	}
+
+	public function testGetOklchBlack(): void
+	{
+		$this->assertSame('oklch(0%, 0%, 0)', Color::Black->getOklch());
+	}
+
+	public function testGetOklchWhite(): void
+	{
+		$this->assertSame('oklch(100%, 0%, 0)', Color::White->getOklch());
+	}
+
+	public function testGetOklchRed500(): void
+	{
+		$this->assertSame('oklch(63.68%, 20.78%, 25.33132777693)', Color::Red500->getOklch());
+	}
 }
