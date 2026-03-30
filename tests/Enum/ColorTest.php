@@ -40,4 +40,31 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::from(Color::Red500->value));
 		$this->assertSame($expected, Color::from(Color::Red500->getId()));
 	}
+
+	public function testFromIdBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromId(1));
+		$this->assertSame($expected, Color::fromId(Color::Black->value));
+		$this->assertSame($expected, Color::fromId(Color::Black->getId()));
+	}
+
+	public function testFromIdWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromId(2));
+		$this->assertSame($expected, Color::fromId(Color::White->value));
+		$this->assertSame($expected, Color::fromId(Color::White->getId()));
+	}
+
+	public function testFromIdRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromId(105));
+		$this->assertSame($expected, Color::fromId(Color::Red500->value));
+		$this->assertSame($expected, Color::fromId(Color::Red500->getId()));
+	}
 }
