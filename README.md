@@ -115,7 +115,7 @@ Convert::hex2cmyk(Color::Red500->getHex());
 | Purple       | `Purple50` → `Purple950`                   |
 | Fuchsia      | `Fuchsia50` → `Fuchsia950`                 |
 | Pink         | `Pink50` → `Pink950`                       |
-| Rose         | `Rose50` → `Rose950`                       |
+| Gold         | `Gold50` → `Gold950`                       |
 | Slate        | `Slate50` → `Slate950`                     |
 | Gray         | `Gray50` → `Gray950`                       |
 | Zinc         | `Zinc50` → `Zinc950`                       |
