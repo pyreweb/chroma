@@ -41,6 +41,13 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::from(Color::Red500->getId()));
 	}
 
+	public function testFromInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::from(999999);
+	}
+
 	public function testFromIdBlack(): void
 	{
 		$expected = Color::Black;
@@ -66,6 +73,13 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::fromId(105));
 		$this->assertSame($expected, Color::fromId(Color::Red500->value));
 		$this->assertSame($expected, Color::fromId(Color::Red500->getId()));
+	}
+
+	public function testFromIdInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromId(999999);
 	}
 
 	public function testFromNameBlack(): void
@@ -95,6 +109,13 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::fromName(Color::Red500->getName()));
 	}
 
+	public function testFromNameInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromName('InvalidColor');
+	}
+
 	public function testFromTitleBlack(): void
 	{
 		$expected = Color::Black;
@@ -117,6 +138,13 @@ class ColorTest extends TestCase
 
 		$this->assertSame($expected, Color::fromTitle('Rouge passion'));
 		$this->assertSame($expected, Color::fromTitle(Color::Red500->getTitle()));
+	}
+
+	public function testFromTitleInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromTitle('Invalid Color');
 	}
 
 	public function testFromHexBlack(): void
@@ -143,6 +171,13 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::fromHex(Color::Red500->getHex()));
 	}
 
+	public function testFromHexInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromHex('#gggggg');
+	}
+
 	public function testFromRgbBlack(): void
 	{
 		$expected = Color::Black;
@@ -165,5 +200,12 @@ class ColorTest extends TestCase
 
 		$this->assertSame($expected, Color::fromRgb('rgb(239, 68, 68)'));
 		$this->assertSame($expected, Color::fromRgb(Color::Red500->getRgb()));
+	}
+
+	public function testFromRgbInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromRgb('rgb(256, 256, 256)');
 	}
 }
