@@ -455,4 +455,33 @@ class ColorTest extends TestCase
 	{
 		$this->assertNull(Color::tryFromHex('#gggggg'));
 	}
+
+	public function testTryFromRgbBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::tryFromRgb('rgb(0, 0, 0)'));
+		$this->assertSame($expected, Color::tryFromRgb(Color::Black->getRgb()));
+	}
+
+	public function testTryFromRgbWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::tryFromRgb('rgb(255, 255, 255)'));
+		$this->assertSame($expected, Color::tryFromRgb(Color::White->getRgb()));
+	}
+
+	public function testTryFromRgbRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::tryFromRgb('rgb(239, 68, 68)'));
+		$this->assertSame($expected, Color::tryFromRgb(Color::Red500->getRgb()));
+	}
+
+	public function testTryFromRgbInvalid(): void
+	{
+		$this->assertNull(Color::tryFromRgb('rgb(256, 256, 256)'));
+	}
 }
