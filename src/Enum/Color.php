@@ -1397,6 +1397,11 @@ enum Color: int
 		return Parse::rgba($this->getRgba($alpha));
 	}
 
+	public function toString(): string
+	{
+		return $this->getTitle() . ' (' . $this->getHex() . ')';
+	}
+
 	public function toArray(float $alpha = 1.0): array
 	{
 		return [
