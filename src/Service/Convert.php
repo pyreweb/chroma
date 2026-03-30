@@ -11,28 +11,28 @@ use Pyreweb\Chroma\Service\Parse;
  */
 class Convert
 {
-	private const CHANNEL_MAX = 255;
-	private const PERCENT_MAX = 100;
+	public const CHANNEL_MAX = 255;
+	public const PERCENT_MAX = 100;
 
-	private const OKLMS_R_L = 0.4122214708;
-	private const OKLMS_R_M = 0.2119034982;
-	private const OKLMS_R_S = 0.0883024619;
-	private const OKLMS_G_L = 0.5363325363;
-	private const OKLMS_G_M = 0.6806995451;
-	private const OKLMS_G_S = 0.2817188376;
-	private const OKLMS_B_L = 0.0514459929;
-	private const OKLMS_B_M = 0.1073969566;
-	private const OKLMS_B_S = 0.6299787005;
+	public const OKLMS_R_L = 0.4122214708;
+	public const OKLMS_R_M = 0.2119034982;
+	public const OKLMS_R_S = 0.0883024619;
+	public const OKLMS_G_L = 0.5363325363;
+	public const OKLMS_G_M = 0.6806995451;
+	public const OKLMS_G_S = 0.2817188376;
+	public const OKLMS_B_L = 0.0514459929;
+	public const OKLMS_B_M = 0.1073969566;
+	public const OKLMS_B_S = 0.6299787005;
 
-	private const OKLAB_L_L = 0.2104542553;
-	private const OKLAB_L_M = 0.7936177850;
-	private const OKLAB_L_S = -0.0040720468;
-	private const OKLAB_A_L = 1.9779984951;
-	private const OKLAB_A_M = -2.4285922050;
-	private const OKLAB_A_S = 0.4505937099;
-	private const OKLAB_B_L = 0.0259040371;
-	private const OKLAB_B_M = 0.7827717662;
-	private const OKLAB_B_S = -0.8086757660;
+	public const OKLAB_L_L = 0.2104542553;
+	public const OKLAB_L_M = 0.7936177850;
+	public const OKLAB_L_S = -0.0040720468;
+	public const OKLAB_A_L = 1.9779984951;
+	public const OKLAB_A_M = -2.4285922050;
+	public const OKLAB_A_S = 0.4505937099;
+	public const OKLAB_B_L = 0.0259040371;
+	public const OKLAB_B_M = 0.7827717662;
+	public const OKLAB_B_S = -0.8086757660;
 
 	public static function hex2rgb(string $hex): string
 	{
