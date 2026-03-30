@@ -91,27 +91,22 @@ use Pyreweb\Chroma\Service\Convert;
  */
 
 // Hexadécimal vers RGB
-
 Convert::hex2rgb('#ef4444');
 Convert::hex2rgb(Color::Red500->getHex());
 
 // Hexadécimal vers RGBA
-
 Convert::hex2rgba('#ef4444', 0.5);
 Convert::hex2rgba(Color::Red500->getHex(), 0.5);
 
 // Hexadécimal vers HSL
-
 Convert::hex2hsl('#ef4444');
 Convert::hex2hsl(Color::Red500->getHex());
 
 // Hexadécimal vers OKLCH
-
 Convert::hex2oklch('#ef4444');
 Convert::hex2oklch(Color::Red500->getHex());
 
 // Hexadécimal vers CMYK
-
 Convert::hex2cmyk('#ef4444');
 Convert::hex2cmyk(Color::Red500->getHex());
 
@@ -120,32 +115,28 @@ Convert::hex2cmyk(Color::Red500->getHex());
  */
 
 // Hexadécimal vers tous les autres
-
 Convert::hex('#ef4444');
 Convert::hex(Color::Red500->getHex());
 
 // Hexadécimal vers RGB
-
 Convert::hex('#ef4444')->toRgb();
 Convert::hex(Color::Red500->getHex())->toRgb();
 
 // Hexadécimal vers RGBA
-
 Convert::hex('#ef4444')->toRgba();
 Convert::hex(Color::Red500->getHex())->toRgba();
+Convert::hex('#ef4444')->toRgba()->withAlpha(0.5);
+Convert::hex(Color::Red500->getHex())->toRgba()->withAlpha(0.5);
 
 // Hexadécimal vers HSL
-
 Convert::hex('#ef4444')->toHsl();
 Convert::hex(Color::Red500->getHex())->toHsl();
 
 // Hexadécimal vers OKLCH
-
 Convert::hex('#ef4444')->toOklch();
 Convert::hex(Color::Red500->getHex())->toOklch();
 
 // Hexadécimal vers CMYK
-
 Convert::hex('#ef4444')->toCmyk();
 Convert::hex(Color::Red500->getHex())->toCmyk();
 ```
