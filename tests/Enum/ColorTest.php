@@ -208,4 +208,35 @@ class ColorTest extends TestCase
 
 		Color::fromRgb('rgb(256, 256, 256)');
 	}
+
+	public function testFromRgbaBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromRgba('rgba(0, 0, 0, 1)'));
+		$this->assertSame($expected, Color::fromRgba(Color::Black->getRgba()));
+	}
+
+	public function testFromRgbaWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromRgba('rgba(255, 255, 255, 1)'));
+		$this->assertSame($expected, Color::fromRgba(Color::White->getRgba()));
+	}
+
+	public function testFromRgbaRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromRgba('rgba(239, 68, 68, 1)'));
+		$this->assertSame($expected, Color::fromRgba(Color::Red500->getRgba()));
+	}
+
+	public function testFromRgbaInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromRgba('rgba(256, 256, 256, 1)');
+	}
 }
