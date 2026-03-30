@@ -104,7 +104,7 @@ class Convert
 		$bVal = self::OKLAB_B_L * $lms_l + self::OKLAB_B_M * $lms_m + self::OKLAB_B_S * $lms_s;
 
 		$C = sqrt($a ** 2 + $bVal ** 2);
-		$H = fmod(rad2deg(atan2($bVal, $a)) + 360, 360);
+		$H = $C < 1e-10 ? 0.0 : fmod(rad2deg(atan2($bVal, $a)) + 360, 360);
 
 		return "oklch(" . round($L * self::PERCENT_MAX, 2) . "%, " . round($C * self::PERCENT_MAX, 2) . "%, $H)";
 	}
@@ -119,7 +119,7 @@ class Convert
 
 		$k = 1 - max($r, $g, $b);
 
-		if ($k === 1.0) {
+		if ($k >= 1.0) {
 			return "cmyk(0%, 0%, 0%, " . round($k * self::PERCENT_MAX, 2) . "%)";
 		}
 
