@@ -41,7 +41,7 @@ $color->toArray();
 use Pyreweb\Chroma\Enum\Color;
 
 foreach (Color::cases() as $color) {
-    echo $color->getTitle() . ' : ' . $color->getHex() . PHP_EOL;
+	echo $color->getTitle() . ' : ' . $color->getHex() . PHP_EOL;
 }
 ```
 
@@ -50,19 +50,30 @@ foreach (Color::cases() as $color) {
 ```php
 use Pyreweb\Chroma\Enum\Color;
 
+Color::from(105);
 Color::from(Color::Red500->getId());
-Color::tryFrom(Color::Red500->getId());
 
+Color::fromId(105);
 Color::fromId(Color::Red500->getId());
+
+Color::fromName('Red500');
 Color::fromName(Color::Red500->getName());
+
+Color::fromCode(500);
 Color::fromCode(Color::Red500->getCode());
+
+Color::fromTitle('Rouge passion');
 Color::fromTitle(Color::Red500->getTitle());
+
+Color::fromHex('#ef4444');
 Color::fromHex(Color::Red500->getHex());
+
 Color::fromRgb(Color::Red500->getRgb());
 Color::fromRgba(Color::Red500->getRgba());
 Color::fromHsl(Color::Red500->getHsl());
 Color::fromOklch(Color::Red500->getOklch());
 
+Color::tryFrom(Color::Red500->getId());
 Color::tryFromId(Color::Red500->getId());
 Color::tryFromName(Color::Red500->getName());
 Color::tryFromCode(Color::Red500->getCode());
