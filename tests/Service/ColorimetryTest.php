@@ -14,28 +14,35 @@ use Pyreweb\Chroma\Service\Colorimetry;
  */
 class ColorimetryTest extends TestCase
 {
+	private const LINEARIZE_NONE = 0.0;
+	private const LINEARIZE_FULL = 1.0;
+
+	private const CBRT_NONE = 0.0;
+	private const CBRT_TWO = 2.0;
+	private const CBRT_EIGHT = 8.0;
+
 	public function testLinearizeNone(): void
 	{
-		$this->assertSame(0.0, Colorimetry::linearize(0.0));
+		$this->assertSame(self::LINEARIZE_NONE, Colorimetry::linearize(self::LINEARIZE_NONE));
 	}
 
 	public function testLinearizeFull(): void
 	{
-		$this->assertSame(1.0, Colorimetry::linearize(1.0));
+		$this->assertSame(self::LINEARIZE_FULL, Colorimetry::linearize(self::LINEARIZE_FULL));
 	}
 
 	public function testCbrtNone(): void
 	{
-		$this->assertSame(0.0, Colorimetry::cbrt(0.0));
+		$this->assertSame(self::CBRT_NONE, Colorimetry::cbrt(self::CBRT_NONE));
 	}
 
 	public function testCbrtPositive(): void
 	{
-		$this->assertSame(2.0, Colorimetry::cbrt(8.0));
+		$this->assertSame(self::CBRT_TWO, Colorimetry::cbrt(self::CBRT_EIGHT));
 	}
 
 	public function testCbrtNegative(): void
 	{
-		$this->assertSame(-2.0, Colorimetry::cbrt(-8.0));
+		$this->assertSame(-self::CBRT_TWO, Colorimetry::cbrt(-self::CBRT_EIGHT));
 	}
 }
