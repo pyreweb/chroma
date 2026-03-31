@@ -86,24 +86,24 @@ $alpha = 0.5;
  */
 
 // Hexadécimal vers RGB
-Convert::hex2rgb('#ef4444');
-Convert::hex2rgb(Color::Red500->getHex());
+Convert::hexToRgb('#ef4444');
+Convert::hexToRgb(Color::Red500->getHex());
 
 // Hexadécimal vers RGBA
-Convert::hex2rgba('#ef4444', $alpha);
-Convert::hex2rgba(Color::Red500->getHex(), $alpha);
+Convert::hexToRgba('#ef4444', $alpha);
+Convert::hexToRgba(Color::Red500->getHex(), $alpha);
 
 // Hexadécimal vers HSL
-Convert::hex2hsl('#ef4444');
-Convert::hex2hsl(Color::Red500->getHex());
+Convert::hexToHsl('#ef4444');
+Convert::hexToHsl(Color::Red500->getHex());
 
 // Hexadécimal vers OKLCH
-Convert::hex2oklch('#ef4444');
-Convert::hex2oklch(Color::Red500->getHex());
+Convert::hexToOklch('#ef4444');
+Convert::hexToOklch(Color::Red500->getHex());
 
 // Hexadécimal vers CMYK
-Convert::hex2cmyk('#ef4444');
-Convert::hex2cmyk(Color::Red500->getHex());
+Convert::hexToCmyk('#ef4444');
+Convert::hexToCmyk(Color::Red500->getHex());
 
 /**
  * Bientôt disponible
