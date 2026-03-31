@@ -36,6 +36,17 @@ class Convert
 	public const OKLAB_B_M = 0.7827717662;
 	public const OKLAB_B_S = -0.8086757660;
 
+	public static function hex(string $hex, float $alpha = 1.0): array
+	{
+		return [
+			'rgb' => self::hexToRgb($hex),
+			'rgba' => self::hexToRgba($hex, $alpha),
+			'hsl' => self::hexToHsl($hex),
+			'oklch' => self::hexToOklch($hex),
+			'cmyk' => self::hexToCmyk($hex),
+		];
+	}
+
 	public static function hexToRgb(string $hex): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
