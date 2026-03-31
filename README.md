@@ -1,6 +1,6 @@
 # pyreweb/chroma
 
-Bibliothèque PHP d'énumérations et de conversion de couleurs, supportant les formats HEX, RGB, RGBA, HSL, OKLCH et CMYK.
+Bibliothèque PHP d'énumérations et de conversion de couleurs. Fournit un enum typé `Color` couvrant plusieurs centaines de teintes réparties sur de nombreuses palettes chromatiques, des tons neutres aux couleurs vives. Supporte les formats HEX, RGB, RGBA, HSL, OKLCH et CMYK, avec des utilitaires de conversion et de parsing intégrés.
 
 ## Prérequis
 
