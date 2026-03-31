@@ -16,59 +16,71 @@ use Pyreweb\Chroma\Service\Parse;
  */
 class ParseTest extends TestCase
 {
+	private const BLACK_HEX = '#000000';
+	private const BLACK_RGB = 'rgb(0, 0, 0)';
+	private const BLACK_RGB_PARSED = [0, 0, 0];
+	private const BLACK_RGBA = 'rgba(0, 0, 0, 1.0)';
+	private const BLACK_RGBA_PARSED = [0, 0, 0, 1.0];
+
+	private const WHITE_HEX = '#FFFFFF';
+	private const WHITE_RGB = 'rgb(255, 255, 255)';
+	private const WHITE_RGB_PARSED = [255, 255, 255];
+	private const WHITE_RGBA = 'rgba(255, 255, 255, 1.0)';
+	private const WHITE_RGBA_PARSED = [255, 255, 255, 1.0];
+
 	public function testHexBlack(): void
 	{
-		$expected = [0, 0, 0];
+		$expected = self::BLACK_RGB_PARSED;
 
-		$this->assertSame($expected, Parse::hex('#000000'));
+		$this->assertSame($expected, Parse::hex(self::BLACK_HEX));
 		$this->assertSame($expected, Parse::hex(Color::Black->getHex()));
 	}
 
 	public function testHexWhite(): void
 	{
-		$expected = [255, 255, 255];
+		$expected = self::WHITE_RGB_PARSED;
 
-		$this->assertSame($expected, Parse::hex('#FFFFFF'));
+		$this->assertSame($expected, Parse::hex(self::WHITE_HEX));
 		$this->assertSame($expected, Parse::hex(Color::White->getHex()));
 	}
 
 	public function testRgbBlack(): void
 	{
-		$expected = [0, 0, 0];
+		$expected = self::BLACK_RGB_PARSED;
 
-		$this->assertSame($expected, Parse::rgb('rgb(0, 0, 0)'));
+		$this->assertSame($expected, Parse::rgb(self::BLACK_RGB));
 		$this->assertSame($expected, Parse::rgb(Color::Black->getRgb()));
-		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb('#000000')));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(self::BLACK_HEX)));
 		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(Color::Black->getHex())));
 	}
 
 	public function testRgbWhite(): void
 	{
-		$expected = [255, 255, 255];
+		$expected = self::WHITE_RGB_PARSED;
 
-		$this->assertSame($expected, Parse::rgb('rgb(255, 255, 255)'));
+		$this->assertSame($expected, Parse::rgb(self::WHITE_RGB));
 		$this->assertSame($expected, Parse::rgb(Color::White->getRgb()));
-		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(self::WHITE_HEX)));
 		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(Color::White->getHex())));
 	}
 
 	public function testRgbaBlack(): void
 	{
-		$expected = [0, 0, 0, 1.0];
+		$expected = self::BLACK_RGBA_PARSED;
 
-		$this->assertSame($expected, Parse::rgba('rgba(0, 0, 0, 1.0)'));
+		$this->assertSame($expected, Parse::rgba(self::BLACK_RGBA));
 		$this->assertSame($expected, Parse::rgba(Color::Black->getRgba()));
-		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba('#000000')));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(self::BLACK_HEX)));
 		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(Color::Black->getHex())));
 	}
 
 	public function testRgbaWhite(): void
 	{
-		$expected = [255, 255, 255, 1.0];
+		$expected = self::WHITE_RGBA_PARSED;
 
-		$this->assertSame($expected, Parse::rgba('rgba(255, 255, 255, 1.0)'));
+		$this->assertSame($expected, Parse::rgba(self::WHITE_RGBA));
 		$this->assertSame($expected, Parse::rgba(Color::White->getRgba()));
-		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(self::WHITE_HEX)));
 		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(Color::White->getHex())));
 	}
 }
