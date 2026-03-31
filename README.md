@@ -85,30 +85,6 @@ $alpha = 0.5;
  * Hexadécimal vers autres
  */
 
-// Hexadécimal vers RGB
-Convert::hexToRgb('#ef4444');
-Convert::hexToRgb(Color::Red500->getHex());
-
-// Hexadécimal vers RGBA
-Convert::hexToRgba('#ef4444', $alpha);
-Convert::hexToRgba(Color::Red500->getHex(), $alpha);
-
-// Hexadécimal vers HSL
-Convert::hexToHsl('#ef4444');
-Convert::hexToHsl(Color::Red500->getHex());
-
-// Hexadécimal vers OKLCH
-Convert::hexToOklch('#ef4444');
-Convert::hexToOklch(Color::Red500->getHex());
-
-// Hexadécimal vers CMYK
-Convert::hexToCmyk('#ef4444');
-Convert::hexToCmyk(Color::Red500->getHex());
-
-/**
- * Bientôt disponible
- */
-
 // Hexadécimal vers tous les autres, en array
 Convert::hex('#ef4444', $alpha);
 Convert::hex(Color::Red500->getHex(), $alpha);
@@ -116,22 +92,32 @@ Convert::hex(Color::Red500->getHex(), $alpha);
 // Hexadécimal vers RGB
 Convert::hex('#ef4444')->toRgb();
 Convert::hex(Color::Red500->getHex())->toRgb();
+Convert::hexToRgb('#ef4444');
+Convert::hexToRgb(Color::Red500->getHex());
 
 // Hexadécimal vers RGBA
 Convert::hex('#ef4444')->toRgba($alpha);
 Convert::hex(Color::Red500->getHex())->toRgba($alpha);
+Convert::hexToRgba('#ef4444', $alpha);
+Convert::hexToRgba(Color::Red500->getHex(), $alpha);
 
 // Hexadécimal vers HSL
 Convert::hex('#ef4444')->toHsl();
 Convert::hex(Color::Red500->getHex())->toHsl();
+Convert::hexToHsl('#ef4444');
+Convert::hexToHsl(Color::Red500->getHex());
 
 // Hexadécimal vers OKLCH
 Convert::hex('#ef4444')->toOklch();
 Convert::hex(Color::Red500->getHex())->toOklch();
+Convert::hexToOklch('#ef4444');
+Convert::hexToOklch(Color::Red500->getHex());
 
 // Hexadécimal vers CMYK
 Convert::hex('#ef4444')->toCmyk();
 Convert::hex(Color::Red500->getHex())->toCmyk();
+Convert::hexToCmyk('#ef4444');
+Convert::hexToCmyk(Color::Red500->getHex());
 ```
 
 ## Palettes disponibles
