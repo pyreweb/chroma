@@ -22,22 +22,22 @@ class ConvertHex extends ArrayObject
 	}
 
 	public function toRgb(): string {
-		return $this['rgb'];
+		return Convert::hexToRgb($this->hex);
 	}
 
-	public function toRgba(): string {
-		return $this['rgba'];
+	public function toRgba(float $alpha = 1.0): string {
+		return Convert::hexToRgba($this->hex, $alpha);
 	}
 
 	public function toHsl(): string {
-		return $this['hsl'];
+		return Convert::hexToHsl($this->hex);
 	}
 
 	public function toOklch(): string {
-		return $this['oklch'];
+		return Convert::hexToOklch($this->hex);
 	}
 	
 	public function toCmyk(): string {
-		return $this['cmyk'];
+		return Convert::hexToCmyk($this->hex);
 	}
 }
