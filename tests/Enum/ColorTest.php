@@ -14,11 +14,19 @@ use Pyreweb\Chroma\Enum\Color;
  */
 class ColorTest extends TestCase
 {
+	private const BLACK_ID = 1;
+
+	private const WHITE_ID = 2;
+
+	private const RED500_ID = 105;
+
+	private const INVALID_ID = 999999;
+
 	public function testFromBlack(): void
 	{
 		$expected = Color::Black;
 
-		$this->assertSame($expected, Color::from(1));
+		$this->assertSame($expected, Color::from(self::BLACK_ID));
 		$this->assertSame($expected, Color::from(Color::Black->value));
 		$this->assertSame($expected, Color::from(Color::Black->getId()));
 	}
@@ -27,7 +35,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::White;
 
-		$this->assertSame($expected, Color::from(2));
+		$this->assertSame($expected, Color::from(self::WHITE_ID));
 		$this->assertSame($expected, Color::from(Color::White->value));
 		$this->assertSame($expected, Color::from(Color::White->getId()));
 	}
@@ -36,7 +44,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::Red500;
 
-		$this->assertSame($expected, Color::from(105));
+		$this->assertSame($expected, Color::from(self::RED500_ID));
 		$this->assertSame($expected, Color::from(Color::Red500->value));
 		$this->assertSame($expected, Color::from(Color::Red500->getId()));
 	}
@@ -45,14 +53,14 @@ class ColorTest extends TestCase
 	{
 		$this->expectException(\ValueError::class);
 
-		Color::from(999999);
+		Color::from(self::INVALID_ID);
 	}
 
 	public function testFromIdBlack(): void
 	{
 		$expected = Color::Black;
 
-		$this->assertSame($expected, Color::fromId(1));
+		$this->assertSame($expected, Color::fromId(self::BLACK_ID));
 		$this->assertSame($expected, Color::fromId(Color::Black->value));
 		$this->assertSame($expected, Color::fromId(Color::Black->getId()));
 	}
@@ -61,7 +69,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::White;
 
-		$this->assertSame($expected, Color::fromId(2));
+		$this->assertSame($expected, Color::fromId(self::WHITE_ID));
 		$this->assertSame($expected, Color::fromId(Color::White->value));
 		$this->assertSame($expected, Color::fromId(Color::White->getId()));
 	}
@@ -70,7 +78,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::Red500;
 
-		$this->assertSame($expected, Color::fromId(105));
+		$this->assertSame($expected, Color::fromId(self::RED500_ID));
 		$this->assertSame($expected, Color::fromId(Color::Red500->value));
 		$this->assertSame($expected, Color::fromId(Color::Red500->getId()));
 	}
@@ -79,7 +87,7 @@ class ColorTest extends TestCase
 	{
 		$this->expectException(\ValueError::class);
 
-		Color::fromId(999999);
+		Color::fromId(self::INVALID_ID);
 	}
 
 	public function testFromNameBlack(): void
@@ -306,7 +314,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::Black;
 
-		$this->assertSame($expected, Color::tryFrom(1));
+		$this->assertSame($expected, Color::tryFrom(self::BLACK_ID));
 		$this->assertSame($expected, Color::tryFrom(Color::Black->value));
 		$this->assertSame($expected, Color::tryFrom(Color::Black->getId()));
 	}
@@ -315,7 +323,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::White;
 
-		$this->assertSame($expected, Color::tryFrom(2));
+		$this->assertSame($expected, Color::tryFrom(self::WHITE_ID));
 		$this->assertSame($expected, Color::tryFrom(Color::White->value));
 		$this->assertSame($expected, Color::tryFrom(Color::White->getId()));
 	}
@@ -324,21 +332,21 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::Red500;
 
-		$this->assertSame($expected, Color::tryFrom(105));
+		$this->assertSame($expected, Color::tryFrom(self::RED500_ID));
 		$this->assertSame($expected, Color::tryFrom(Color::Red500->value));
 		$this->assertSame($expected, Color::tryFrom(Color::Red500->getId()));
 	}
 
 	public function testTryFromInvalid(): void
 	{
-		$this->assertNull(Color::tryFrom(999999));
+		$this->assertNull(Color::tryFrom(self::INVALID_ID));
 	}
 
 	public function testTryFromIdBlack(): void
 	{
 		$expected = Color::Black;
 
-		$this->assertSame($expected, Color::tryFromId(1));
+		$this->assertSame($expected, Color::tryFromId(self::BLACK_ID));
 		$this->assertSame($expected, Color::tryFromId(Color::Black->value));
 		$this->assertSame($expected, Color::tryFromId(Color::Black->getId()));
 	}
@@ -347,7 +355,7 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::White;
 
-		$this->assertSame($expected, Color::tryFromId(2));
+		$this->assertSame($expected, Color::tryFromId(self::WHITE_ID));
 		$this->assertSame($expected, Color::tryFromId(Color::White->value));
 		$this->assertSame($expected, Color::tryFromId(Color::White->getId()));
 	}
@@ -356,14 +364,14 @@ class ColorTest extends TestCase
 	{
 		$expected = Color::Red500;
 
-		$this->assertSame($expected, Color::tryFromId(105));
+		$this->assertSame($expected, Color::tryFromId(self::RED500_ID));
 		$this->assertSame($expected, Color::tryFromId(Color::Red500->value));
 		$this->assertSame($expected, Color::tryFromId(Color::Red500->getId()));
 	}
 
 	public function testTryFromIdInvalid(): void
 	{
-		$this->assertNull(Color::tryFromId(999999));
+		$this->assertNull(Color::tryFromId(self::INVALID_ID));
 	}
 
 	public function testTryFromNameBlack(): void
@@ -795,7 +803,7 @@ class ColorTest extends TestCase
 	public function testToArrayBlack(): void
 	{
 		$expected = [
-			'id' => 1,
+			'id' => self::BLACK_ID,
 			'name' => 'Black',
 			'code' => 0,
 			'title' => 'Noir',
@@ -822,7 +830,7 @@ class ColorTest extends TestCase
 	public function testToArrayWhite(): void
 	{
 		$expected = [
-			'id' => 2,
+			'id' => self::WHITE_ID,
 			'name' => 'White',
 			'code' => 0,
 			'title' => 'Blanc',
@@ -849,7 +857,7 @@ class ColorTest extends TestCase
 	public function testToArrayRed500(): void
 	{
 		$expected = [
-			'id' => 105,
+			'id' => self::RED500_ID,
 			'name' => 'Red500',
 			'code' => 500,
 			'title' => 'Rouge passion',
@@ -876,7 +884,7 @@ class ColorTest extends TestCase
 	public function testToJsonBlack(): void
 	{
 		$expected = json_encode([
-			'id' => 1,
+			'id' => self::BLACK_ID,
 			'name' => 'Black',
 			'code' => 0,
 			'title' => 'Noir',
@@ -903,7 +911,7 @@ class ColorTest extends TestCase
 	public function testToJsonWhite(): void
 	{
 		$expected = json_encode([
-			'id' => 2,
+			'id' => self::WHITE_ID,
 			'name' => 'White',
 			'code' => 0,
 			'title' => 'Blanc',
@@ -930,7 +938,7 @@ class ColorTest extends TestCase
 	public function testToJsonRed500(): void
 	{
 		$expected = json_encode([
-			'id' => 105,
+			'id' => self::RED500_ID,
 			'name' => 'Red500',
 			'code' => 500,
 			'title' => 'Rouge passion',
