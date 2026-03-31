@@ -42,6 +42,12 @@ $color->toJson($alpha);
 ```php
 use Pyreweb\Chroma\Enum\Color;
 
+/**
+ * Renvoi la liste suivante :
+ * Noir (#000000)
+ * Blanc (#ffffff)
+ * ...
+ */
 foreach (Color::cases() as $color) {
 	echo $color->toString();
 }
