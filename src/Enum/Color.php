@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Pyreweb\Chroma\Enum;
 
-use Pyreweb\Chroma\Interface\ColorInterface;
-
 use Pyreweb\Chroma\Service\Convert;
 use Pyreweb\Chroma\Service\Parse;
 
@@ -13,7 +11,7 @@ use Pyreweb\Chroma\Service\Parse;
  * @author Hugo Doueil <hugo@pyreweb.com>
  * @author Pyréweb <contact@pyreweb.com>
  */
-enum Color implements ColorInterface: int
+enum Color: int
 {
 	case Black = 1;
 	case White = 2;
