@@ -5,7 +5,7 @@
 		colors="true"
 >
 	<testsuites>
-		<testsuite name="Chroma Test Suite">
+		<testsuite name="pyreweb/chroma - test suite">
 			<directory>tests</directory>
 		</testsuite>
 	</testsuites>
